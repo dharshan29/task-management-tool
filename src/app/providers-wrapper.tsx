@@ -1,5 +1,6 @@
 'use client';
 
+import Providers from '@/lib/providers';
 import { usePathname } from 'next/navigation';
 
 
@@ -8,6 +9,6 @@ export default function ProvidersWrapper({ children, isAuth }: { children: React
 
   const pathname = usePathname();
 
-  // return  <Providers isAuth={isAuth}>{children}</Providers>
-  return children
+  return  <Providers isAuth={isAuth}>{children}</Providers>
+  // return children
 }
