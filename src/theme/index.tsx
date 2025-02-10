@@ -1,6 +1,7 @@
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import palette from "./palette";
 import typography from "./typography";
+import ComponentsOverrides from "./overrides";
 
 
 export default function ThemeRegistry({ children } : {children: React.ReactNode}) {
@@ -11,7 +12,7 @@ export default function ThemeRegistry({ children } : {children: React.ReactNode}
             // shape,
             // breakpoints,
           })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    customTheme.components = ComponentsOverrides(customTheme);
     return (
           <ThemeProvider theme={customTheme}>
             <CssBaseline />

@@ -6,6 +6,7 @@ const BLACK = {
     300: '#1A1C20',
     400: '#2F2F2F',
     500: '#292929',
+    100_10: alpha('#000000', 0.1),
     100_20: alpha('#000000', 0.2),
     100_40: alpha('#000000', 0.4), 
     100_42: alpha('#000000', 0.42), 
@@ -21,6 +22,11 @@ const GREY = {
 }
 
 const PRIMARY = {
+    light: BLACK[400],
+    main: BLACK[100]
+}
+
+const SECONDARY = {
     light: '#FAC3FF',
     main: '#7B1984'
 }
@@ -35,9 +41,13 @@ const ERROR = {
 // #FFFAEA
 
 
+
 const palette = {
     primary: {
         ...PRIMARY
+    },
+    secondary: {
+        ...SECONDARY
     },
     error: {
         ...ERROR

@@ -41,12 +41,10 @@ const typography: TypographyOptions = {
   fontFamily: mulish.style.fontFamily,
   h1: {
     fontWeight: 700,
-    lineHeight: 64 / 48,
     fontSize: pxToRem(32),
   },
   h2: {
     fontWeight: 700,
-    lineHeight: 2.1,
     fontSize: pxToRem(24),
   },
   h3: {

@@ -13,10 +13,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <html lang="en">
-      <body>
-        <ProvidersWrapper isAuth={true}>{children}</ProvidersWrapper>
+      <body suppressHydrationWarning>
+        <ProvidersWrapper>{children}</ProvidersWrapper>
       </body>
     </html>
   );
