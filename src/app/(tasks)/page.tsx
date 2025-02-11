@@ -5,6 +5,7 @@ import Image from 'next/image';
 import searchIcon from '@/assets/icons/search.svg'
 import { useLayoutStore } from '@/lib/zustand/layout';
 import ListLayout from '@/components/layout/list';
+import BoardLayout from '@/components/layout/board';
 
 interface CategoryOption {
   label: string;
@@ -94,6 +95,7 @@ const Page = () => {
             </Stack>
         </Stack>
         {layout === 'list'  && <ListLayout />}
+        {layout === 'board' && <BoardLayout />}
     </Stack>
   );
 };

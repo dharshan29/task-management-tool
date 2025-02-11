@@ -1,5 +1,7 @@
-import { Box, Divider, useTheme, Typography } from '@mui/material';
+import { Box, Divider, useTheme, Typography, Stack } from '@mui/material';
 import Table from '../../table/table'
+import AddTaskComponent from './addTasks';
+import RowComponent from './row';
 
 const ListLayout = () => {
     const theme = useTheme();
@@ -22,7 +24,7 @@ const ListLayout = () => {
     ];
 
     const isLoading = false;
-    const CouponCode = () => <div>Coupon Code Component</div>; // Assuming this is a placeholder for a component that will be used for each row
+    
 
   return (
     <Box>
@@ -34,21 +36,24 @@ const ListLayout = () => {
         <Typography variant="h6" sx={{ flex: 0.3, textAlign: 'start' }}>Task Category</Typography>
       </Box>
 
-      <Table
-        data={todoData}
-        isLoading={isLoading}
-        row={CouponCode}
-      />
-      <Table
-        data={inProgressData}
-        isLoading={isLoading}
-        row={CouponCode}
-      />
-      <Table
-        data={completedData}
-        isLoading={isLoading}
-        row={CouponCode}
-      />
+        <Stack gap="32px">
+            <Table
+                data={todoData}
+                isLoading={isLoading}
+                row={RowComponent}
+                addTaskComponent={AddTaskComponent}
+            />
+            <Table
+                data={inProgressData}
+                isLoading={isLoading}
+                row={RowComponent}
+            />
+            <Table
+                data={completedData}
+                isLoading={isLoading}
+                row={RowComponent}
+            />
+        </Stack>
     </Box>
   );
 };

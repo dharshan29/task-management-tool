@@ -15,8 +15,9 @@ const BLACK = {
     100_82: alpha('#000000', 0.82),
 };
 
-const GREY = {
+const BORDER = {
     100: '#595751',
+    200: '#FFFAEA',
     100_07: alpha('#595751', 0.07),
     100_28: alpha('#595751', 0.28),
 }
@@ -54,6 +55,9 @@ const palette = {
     },
     black: {
         ...BLACK
+    },
+    border: {
+        ...BORDER
     },
     background: { default: '#FFFFFF', paper: '#F1F1F1', soft: '#FFF9F9' }
 };
