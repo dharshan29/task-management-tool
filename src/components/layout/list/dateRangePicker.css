@@ -1,0 +1,132 @@
+/* Custom DatePicker Styles */
+.custom-datepicker {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  /* Custom header with month & year dropdown */
+  .custom-header {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  /* Custom dropdown styles */
+  .custom-dropdown {
+    font-family: Mulish;
+    font-weight: 500;
+    letter-spacing: 0%;
+    border: none;
+    line-height: 15px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  
+  /* Ensure dropdowns don’t overflow */
+  .react-datepicker__year-dropdown,
+  .react-datepicker__month-dropdown {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  /* Weekday styles */
+  .react-datepicker__day-names {
+    font-weight: 400;
+    font-family: Mulish;
+    font-size: 11px;
+    line-height: 13.47px;
+  }
+
+  .react-datepicker__month {
+    font-family: Mulish;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13.47px;
+    color: #252525;
+  }
+
+
+  /* Calendar popup styles */
+  .react-datepicker {
+    width: 255px;
+    /* height: 233px; */
+    border-radius: 12px;
+    box-shadow: 0px 0.98px 3.9px 0px rgba(0, 0, 0, 0.25);
+    background: #ffffff;
+    padding: 10px;
+  }
+
+  
+
+  .react-datepicker__header {
+    background-color: transparent;
+    padding: 0;
+    border: 0;
+  }
+  
+  /* Selected date style */
+  .react-datepicker__day--selected {
+    background-color: #7B1984;
+    color: white;
+  }
+  
+
+  /* Selected start and end date styles */
+.react-datepicker__day--range-start,
+.react-datepicker__day--range-end {
+  background: #7B1984 !important;
+  color: white !important;
+}
+
+/* Ensure text color remains white */
+.react-datepicker__day--range-start:hover,
+.react-datepicker__day--range-end:hover {
+  background: #DDA0DD !important;
+  color: white !important;
+}
+
+/* Default selected range background */
+.react-datepicker__day--in-range {
+  background: #DDA0DD; /* Light purple for in-between dates */
+  color: white !important;
+}
+
+.react-datepicker__day--in-selecting-range {
+    background: #7B1984 !important;
+    color: white !important;
+  }
+
+/* Ensure today’s date is visible */
+.react-datepicker__day--today {
+  font-weight: bold;
+  background: #DDA0DD !important;
+  color: white !important;
+  border-radius: 0.3rem;
+}
+
+
+/* Hover effect */
+.react-datepicker__day:hover {
+  background: #7B1984;
+  color: white;
+  border-radius: 50%;
+}
+
+
+  /* .react-datepicker__day-name {
+    font-family: Mulish;
+    font-weight: 400;
+    font-size: 10.73px;
+    line-height: 13.47px;
+    letter-spacing: 0%;
+  } */
+  
+
+/* .react-datepicker__day--today:hover {
+    background: #DDA0DD; 
+    color: white !important;
+} */

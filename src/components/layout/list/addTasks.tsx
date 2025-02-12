@@ -3,6 +3,7 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import plusIcon from '@/assets/icons/plus.svg'
 import addIcon from '@/assets/icons/add.svg'
+import enterIcon from '@/assets/icons/enter.svg'
 
 const AddTaskComponent = () => {
     const theme = useTheme();
@@ -32,15 +33,20 @@ const AddTaskComponent = () => {
             <Divider sx={{bgcolor: theme.palette.black[100_10]}}/>
             {addTask && 
                 <Stack>
-                    <Stack flexDirection="row" sx={{height: '114px', py: '13px'}}>
+                    <Stack flexDirection="row" sx={{height: '114px', pt: '13px', pb: '25px'}}>
                         <Stack sx={{flex: 0.3}}>
-                            <Stack sx={{pl: '77px'}}>
+                            <Stack sx={{pl: '77px', height: '100%', justifyContent: 'space-between'}}>
                                 <TextField variant='standard' placeholder='Task Title'/>
                                 <Stack flexDirection="row" gap="10px">
-                                    <Button variant='contained'>
+                                    <Button variant='contained'     
+                                        sx={{height: '30px !important', width: '84px', bgcolor: theme.palette.secondary.main, borderRadius: '60px'}}
+                                        endIcon={<Image src={enterIcon} alt="add"/>}
+                                    >
                                         ADD
                                     </Button>
-                                    <Button variant='text'>
+                                    <Button variant='text'
+                                         sx={{height: '30px !important', width: '90px', borderRadius: '60px'}}
+                                    >
                                         CANCEL
                                     </Button>
                                 </Stack>

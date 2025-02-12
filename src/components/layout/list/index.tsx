@@ -2,6 +2,8 @@ import { Box, Divider, useTheme, Typography, Stack } from '@mui/material';
 import Table from '../../table/table'
 import AddTaskComponent from './addTasks';
 import RowComponent from './row';
+import DateRangePicker from './dateRangePicker';
+
 
 const ListLayout = () => {
     const theme = useTheme();
@@ -35,6 +37,11 @@ const ListLayout = () => {
         <Typography variant="h6" sx={{ flex: 0.2, textAlign: 'start' }}>Task Status</Typography>
         <Typography variant="h6" sx={{ flex: 0.3, textAlign: 'start' }}>Task Category</Typography>
       </Box>
+
+    <Stack sx={{ml: 100}}>
+
+      <DateRangePicker />
+    </Stack>
 
         <Stack gap="32px">
             <Table
