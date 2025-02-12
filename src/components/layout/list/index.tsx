@@ -2,7 +2,8 @@ import { Box, Divider, useTheme, Typography, Stack } from '@mui/material';
 import Table from '../../table/table'
 import AddTaskComponent from './addTasks';
 import RowComponent from './row';
-import DateRangePicker from './dateRangePicker';
+import DateRangePicker from '../../datePickers/dateRangePicker';
+import SingleDatePicker from '../../datePickers/singleDatePicker';
 
 
 const ListLayout = () => {
@@ -32,16 +33,20 @@ const ListLayout = () => {
     <Box>
       <Divider sx={{bgcolor: theme.palette.black[100_10]}}/>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px' }}>
-        <Typography variant="h6" sx={{ flex: 0.3, textAlign: 'start' }}>Task Name</Typography>
-        <Typography variant="h6" sx={{ flex: 0.2, textAlign: 'start' }}>Due On</Typography>
-        <Typography variant="h6" sx={{ flex: 0.2, textAlign: 'start' }}>Task Status</Typography>
-        <Typography variant="h6" sx={{ flex: 0.3, textAlign: 'start' }}>Task Category</Typography>
+        <Typography variant="h6" sx={{ flex: 0.3, textAlign: 'start', fontSize: '14px', color: theme.palette.black[100_60] }}>Task Name</Typography>
+        <Typography variant="h6" sx={{ flex: 0.2, textAlign: 'start', fontSize: '14px', color: theme.palette.black[100_60] }}>Due on</Typography>
+        <Typography variant="h6" sx={{ flex: 0.2, textAlign: 'start', fontSize: '14px', color: theme.palette.black[100_60] }}>Task Status</Typography>
+        <Typography variant="h6" sx={{ flex: 0.3, textAlign: 'start', fontSize: '14px', color: theme.palette.black[100_60] }}>Task Category</Typography>
       </Box>
 
-    <Stack sx={{ml: 100}}>
-
+    {/* <Stack sx={{ml: 100}}>
       <DateRangePicker />
+      
     </Stack>
+    <Stack sx={{ml: 100}}>
+      <SingleDatePicker /> */}
+      
+    {/* </Stack> */}
 
         <Stack gap="32px">
             <Table

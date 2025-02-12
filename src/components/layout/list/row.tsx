@@ -1,4 +1,4 @@
-import { Stack, TableCell, TableRow, Typography } from '@mui/material';
+import { Box, Button, Stack, TableCell, TableRow, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 import React from 'react'
 import selectIcon from '@/assets/icons/select.svg';
@@ -15,6 +15,7 @@ interface RowProps {
 }
 
 const RowComponent: React.FC<RowProps> = ({ data }) => {
+  const theme = useTheme();
   return (
     <TableRow hover sx={{height: '48px'}}>
       <TableCell component="th" scope="row" sx={{width: '30%'}}>
@@ -22,25 +23,27 @@ const RowComponent: React.FC<RowProps> = ({ data }) => {
             <Image src={selectIcon} alt='select'/>
             <Image src={dragIcon} alt='drag'/>
             <Image src={unCheckedIcon} alt='uncheck'/>
-            <Typography sx={{pl: '5px'}}>
+            <Typography sx={{pl: '5px', fontWeight: 500, color: theme.palette.black[100]}} variant='body2'>
                 {data.taskName}
             </Typography>
         </Stack>
       </TableCell>
       <TableCell component="th" scope="row" sx={{width: '20%', pl: 0}}>
-      <Typography>
-            {data.dueOn}
-        </Typography>
+        <Typography variant='body2' sx={{fontWeight: 500, color: theme.palette.black[100]}}>
+              {data.dueOn}
+          </Typography>
       </TableCell>
       <TableCell component="th" scope="row" sx={{width: '20%', pl: 0}}>
-      <Typography>
-            {data.taskStatus}
-        </Typography>
+        <Button sx={{p:'4px 10px',height: '28px !important', background: theme.palette.border[300], borderRadius: '4px', width: 'fit-content'}}>
+          <Typography variant='body2' sx={{fontWeight: 500, color: theme.palette.black[100]}}>
+                {data.taskStatus}
+            </Typography>
+        </Button>
       </TableCell>
       <TableCell component="th" scope="row" sx={{width: '30%', pl: 0}}>
-      <Typography>
-            {data.taskCategory}
-        </Typography>
+        <Typography variant='body2' sx={{fontWeight: 500, color: theme.palette.black[100]}}>
+              {data.taskCategory}
+          </Typography>
       </TableCell>
     </TableRow>
   )

@@ -1,4 +1,4 @@
-import { Stack, Typography, useTheme } from '@mui/material'
+import { IconButton, Stack, Typography, useTheme } from '@mui/material'
 import Image from 'next/image';
 import moreIcon from '@/assets/icons/more.svg'
 import React from 'react'
@@ -39,17 +39,19 @@ const Card = ({item}: {item: Item}) => {
                 justifyContent="space-between" 
                 sx={{px: '16px', mt: '16.5px'}}
             >
-                <Typography>{item.taskName}</Typography>
-                <Image src={moreIcon} alt='more' />
+                <Typography variant='h6' sx={{color: theme.palette.black[100]}}>{item.taskName}</Typography>
+                <IconButton sx={{p:0}}>
+                    <Image src={moreIcon} alt='more' />
+                </IconButton>
             </Stack>
             <Stack 
                 flexDirection="row" 
                 alignItems="center" 
                 justifyContent="space-between"  
-                sx={{px: '16px', mb: '7px'}}
+                sx={{px: '16px', mb: '7px', color: theme.palette.black[100_52]}}
             >
-                <Typography>{item.taskCategory}</Typography>
-                <Typography>{item.dueOn}</Typography>
+                <Typography variant='subtitle2'>{item.taskCategory}</Typography>
+                <Typography variant='subtitle2'>{item.dueOn}</Typography>
             </Stack>
         </Stack>
     )

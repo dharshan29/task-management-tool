@@ -1,11 +1,12 @@
 "use client"
-import React from 'react';
-import { Box, Stack, TextField, Button, Autocomplete, MenuItem, InputAdornment, Select } from '@mui/material';
+import React, { useEffect, useRef } from 'react';
+import { Box, Stack, TextField, Button, Autocomplete, MenuItem, InputAdornment, Select, useTheme } from '@mui/material';
 import Image from 'next/image';
 import searchIcon from '@/assets/icons/search.svg'
 import { useLayoutStore } from '@/lib/zustand/layout';
 import ListLayout from '@/components/layout/list';
 import BoardLayout from '@/components/layout/board';
+import DateRangePicker from '@/components/datePickers/dateRangePicker';
 
 interface CategoryOption {
   label: string;
@@ -34,8 +35,12 @@ const Page = () => {
   const [category, setCategory] = React.useState<string | null>(null);
   const [dueDate, setDueDate] = React.useState<string | null>(null);
   const [search, setSearch] = React.useState<string>('');
+  const [dateRange, setDateRange] = React.useState<[Date | null, Date | null]>([null, null]);
 
   const { layout  } = useLayoutStore();
+  const theme = useTheme();
+
+
 
   const handleCategoryChange = (event: any, value: string | null) => {
     setCategory(value);
@@ -49,10 +54,11 @@ const Page = () => {
     setSearch(event.target.value);
   };
 
+
   return (
     <Stack gap="34px">
         <Stack direction="row" spacing={2} sx={{ justifyContent: 'space-between' }}>
-            <Stack direction="column" spacing={2}>
+            <Stack direction="column" spacing={2} alignItems="center">
                 <Stack direction="row" spacing={2}>
                 <Select
                     id="category"
@@ -65,25 +71,28 @@ const Page = () => {
                     <MenuItem value="company">Company</MenuItem>
                     <MenuItem value="work">Work</MenuItem>
                 </Select>
-                {/* <Autocomplete
-                    disablePortal
-                    id="due-date"
-                    options={dueDateOptions}
-                    renderInput={(params) => <TextField {...params} label="Due Date" />}
-                    // value={dueDate}
-                    // onChange={handleDueDateChange}
-                /> */}
+                <Select
+                  id="date"
+                  open={false} 
+                  renderValue={(value) => "Due Date"} 
+                  // onClick={() => setOpen(true)}
+                  displayEmpty
+                  sx={{width: '90px'}}
+                >
+
+                </Select>
+   
                 </Stack>
             </Stack>
-            <Stack direction="row" spacing={2}>
+            <Stack direction="row" spacing={2} alignItems="center">
                 <TextField
-                id="search"
-                value={search}
-                variant='outlined'
-                placeholder='Search'
-                onChange={handleSearchChange}
-                sx={{height: '36px'}}
-                slotProps={{
+                  id="search"
+                  value={search}
+                  variant='outlined'
+                  placeholder='Search'
+                  onChange={handleSearchChange}
+                  sx={{height: '36px'}}
+                  slotProps={{
                     input: {
                     startAdornment: <InputAdornment position="start" sx={{margin: 0}}>
                         <Image src={searchIcon} alt='search'/>
@@ -91,7 +100,16 @@ const Page = () => {
                     },
                 }}
                 />
-                <Button variant="contained">Add Task</Button>
+                <Button variant="contained" 
+                  sx={{ 
+                    height: '48px', 
+                    width: '152px',
+                    borderRadius: '41px', 
+                    bgcolor: theme.palette.secondary.main,
+                    transition: 'transform 300ms ease-in-out',
+                    transform: 'translateX(0)'
+                  }} 
+                  >Add Task</Button>
             </Stack>
         </Stack>
         {layout === 'list'  && <ListLayout />}

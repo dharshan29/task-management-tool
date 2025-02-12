@@ -1,8 +1,12 @@
-import { TableRow, TableHead, Typography, TableCell } from '@mui/material';
+import { TableRow, TableHead, Typography, TableCell, IconButton, Stack } from '@mui/material';
+import Image from 'next/image';
+import downIcon from '@/assets/icons/down.svg';
 
 interface TableHeadMainProps {
   count: number;
   status: string;
+  body: boolean,
+  setBody: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const taskStatus: Record<string, string> = {
@@ -17,18 +21,24 @@ const headColor: Record<string, string> = {
   'COMPLETED': '#CEFFCC'
 };
 
-export default function TableHeadMain({ count, status }: TableHeadMainProps) {
+export default function TableHeadMain({ count, status, body, setBody }: TableHeadMainProps) {
   return (
     <TableHead sx={{ 
       height: '49px', 
       bgcolor: headColor[status], 
-      borderBottom: '1px solid #EAECF0'
+      borderBottom: '1px solid #EAECF0',
+      transition: 'background-color 0.5s ease-in-out'
     }}>
       <TableRow>
-        <TableCell colSpan={4} sx={{ border: 'none', py: 1, width: '100%' }}>
-          <Typography sx={{ fontWeight: 600 }} variant='body1'>
-            {`${taskStatus[status]} (${count})`}
-          </Typography>
+        <TableCell colSpan={4} sx={{paddingX: '16px', paddingY: 0,  border: 'none', py: 1, width: '100%' }}>
+          <Stack flexDirection="row" alignItems="center" justifyContent="space-between">
+            <Typography sx={{ fontWeight: 600 }} variant='body1'>
+              {`${taskStatus[status]} (${count})`}
+            </Typography>
+            <IconButton sx={{padding: 0}} onClick={() => setBody(prev => !prev)}>
+              <Image src={downIcon} alt='arrow' style={{transform: body ? 'scaleY(1)' : 'scaleY(-1)', transition: 'transform 0.3s ease-in-out'}} />
+            </IconButton>
+          </Stack>
         </TableCell>
       </TableRow>
     </TableHead>
