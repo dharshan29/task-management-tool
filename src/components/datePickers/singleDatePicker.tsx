@@ -1,24 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { addYears } from 'date-fns';
 
-const SingleDatePicker = () => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+interface SingleDatePickerProps {
+    selectedDate: Date | null;
+    setSelectedDate: (selectedDate: Date | null) => void;
+}
+
+const SingleDatePicker: React.FC<SingleDatePickerProps>  = ({selectedDate, setSelectedDate}) => {
 
   return (
     <DatePicker
       selected={selectedDate}
       onChange={(date: Date | null) => setSelectedDate(date)}
       isClearable
-      placeholderText="Select Date"
+      placeholderText="DD/MM/YYYY"
       dateFormat="MM/dd/yyyy"
       minDate={new Date()} 
       maxDate={addYears(new Date(), 5)} 
       showMonthDropdown
       showYearDropdown
       dropdownMode="select"
-      className="custom-datepicker"
+      className="single-datepicker"
       renderCustomHeader={({ date, changeMonth, changeYear }) => (
         <div className="custom-header">
             <div className="custom-dropdown-wrapper">

@@ -1,9 +1,10 @@
 import { Box, Button, Stack, TableCell, TableRow, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
-import React from 'react'
+import React, { useState } from 'react'
 import selectIcon from '@/assets/icons/select.svg';
 import dragIcon from '@/assets/icons/drag.svg';
 import unCheckedIcon from '@/assets/icons/unchecked.svg';
+import AddPopper from '@/components/customPopper/addPopper';
 
 interface RowProps {
   data: {
@@ -16,6 +17,25 @@ interface RowProps {
 
 const RowComponent: React.FC<RowProps> = ({ data }) => {
   const theme = useTheme();
+
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+    const [open, setOpen] = useState(false);
+    const [selected, setSelected] = useState("false");
+
+    const statusOptions = ['TO-DO', 'IN-PROGRESS', 'COMPLETED'];
+
+    const onClose = () => setOpen(false);
+    const onSelect = (option: string) => {
+        console.log(option);
+        setOpen(false);
+    };
+
+    const handleClick = (event: React.MouseEvent<HTMLElement>, selected: string) => {
+        setSelected(selected)
+        setAnchorEl(event.currentTarget);
+        setOpen((previousOpen) => !previousOpen);
+      };
+
   return (
     <TableRow hover sx={{height: '48px'}}>
       <TableCell component="th" scope="row" sx={{width: '30%'}}>
@@ -34,7 +54,7 @@ const RowComponent: React.FC<RowProps> = ({ data }) => {
           </Typography>
       </TableCell>
       <TableCell component="th" scope="row" sx={{width: '20%', pl: 0}}>
-        <Button sx={{p:'4px 10px',height: '28px !important', background: theme.palette.border[300], borderRadius: '4px', width: 'fit-content'}}>
+        <Button onClick={(e) => handleClick(e, data.taskStatus)} sx={{p:'4px 10px',height: '28px !important', background: theme.palette.border[300], borderRadius: '4px', width: 'fit-content'}}>
           <Typography variant='body2' sx={{fontWeight: 500, color: theme.palette.black[100]}}>
                 {data.taskStatus}
             </Typography>
@@ -45,6 +65,7 @@ const RowComponent: React.FC<RowProps> = ({ data }) => {
               {data.taskCategory}
           </Typography>
       </TableCell>
+      <AddPopper anchorEl={anchorEl} open={open} onClose={onClose} options={statusOptions || []} onSelect={onSelect} selected={selected} placement='bottom'/>
     </TableRow>
   )
 }

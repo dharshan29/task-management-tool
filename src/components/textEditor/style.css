@@ -1,0 +1,11 @@
+.custom-editor {
+    border: none !important;
+    outline: none !important;
+    color: #1E212A;
+    font-size: 14px;
+}
+  
+.custom-editor:focus {
+    border: none !important;
+    outline: none !important;
+}
