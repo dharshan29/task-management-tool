@@ -6,6 +6,9 @@ import addIcon from '@/assets/icons/add.svg'
 import enterIcon from '@/assets/icons/enter.svg'
 import SingleDatePicker from '@/components/datePickers/singleDatePicker'
 import AddPopper from '@/components/customPopper/addPopper'
+import { useTaskStore } from '@/lib/zustand/tasks'
+import { useMutation } from '@tanstack/react-query'
+import { add_task } from '@/services'
 
 
 // const statusOptions = ['TO-DO', 'IN-PROGRESS', 'COMPLETED'];
@@ -17,7 +20,7 @@ const values = {
 }
 const AddTaskComponent = () => {
     const theme = useTheme();
-    const [addTask, setAddTask] = useState(false);
+    const [showTask, setShowTask] = useState(false);
     const [optionKey, setOptionKey] = useState<string>('');
     const [options, setOptions] = useState<string[] | undefined>(undefined);
     // input states
@@ -29,9 +32,30 @@ const AddTaskComponent = () => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
     const [open, setOpen] = useState(false);
 
-    
+    const { addTask } = useTaskStore()
+    const { mutate: createTask, isError } = useMutation({
+      mutationFn: add_task,
+      onSuccess: (data) => {
+        addTask(data.task);
+      },
+    });
+  
+    const handleCreate = () => {
+      createTask({taskName: text, dueOn: selectedDate ?? new Date(), category, status })
+    }
 
-    const onClose = () => setOpen(false);
+    const onClose = () => {
+        setOpen(false);
+    }
+
+    const handleClose = () => {
+        setText("");
+        setSelectedDate(null);
+        setStatus('')
+        setCategory('')
+        setShowTask(false)
+    }
+
     const onSelect = (option: string) => {
         console.log(option);
         if(optionKey === 'statusOptions'){
@@ -49,9 +73,6 @@ const AddTaskComponent = () => {
         setOpen((previousOpen) => !previousOpen);
     };
 
-    const onAdd = () => {
-        console.log(text, selectedDate, status, category)
-    }
 
 
     return (
@@ -64,7 +85,7 @@ const AddTaskComponent = () => {
                         width: 'fit-content', 
                         ml: '55px', cursor: 'pointer'
                     }}
-                    onClick={() => setAddTask(true)}
+                    onClick={() => setShowTask(true)}
                 >
                     <Image src={plusIcon} alt='plus'/>
                     <Typography variant='body2' sx={{
@@ -77,7 +98,7 @@ const AddTaskComponent = () => {
                 </Stack>
             </Stack>
             <Divider sx={{bgcolor: theme.palette.black[100_10]}}/>
-            {addTask && 
+            {showTask && 
                 <Stack>
                     <Stack flexDirection="row" sx={{height: '114px', pt: '13px', pb: '25px'}}>
                         <Stack sx={{flex: 0.3}}>
@@ -85,14 +106,14 @@ const AddTaskComponent = () => {
                                 <TextField variant='standard' placeholder='Task Title' value={text} onChange={(e) => setText(e.target.value)}/>
                                 <Stack flexDirection="row" gap="10px">
                                     <Button variant='contained'     
-                                        onClick={onAdd}
+                                        onClick={handleCreate}
                                         sx={{height: '30px !important', width: '84px', bgcolor: theme.palette.secondary.main, borderRadius: '60px'}}
                                         endIcon={<Image src={enterIcon} alt="add"/>}
                                     >
                                         ADD
                                     </Button>
                                     <Button variant='text'
-                                        onClick={() => setAddTask(false)}
+                                        onClick={handleClose}
                                          sx={{height: '30px !important', width: '90px', borderRadius: '60px'}}
                                     >
                                         CANCEL

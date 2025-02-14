@@ -25,6 +25,9 @@ const useStyles = (theme: Theme) => ({
         textTransform: 'none',
         border: `1px solid ${theme.palette.black[100_19]}`
     },
+    activeOption: {
+        background: theme.palette.black[100_19],
+    },
     select:{
         height: '32px',
         width: '100%',

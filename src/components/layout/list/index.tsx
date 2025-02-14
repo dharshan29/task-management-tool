@@ -4,27 +4,11 @@ import AddTaskComponent from './addTasks';
 import RowComponent from './row';
 import DateRangePicker from '../../datePickers/dateRangePicker';
 import SingleDatePicker from '../../datePickers/singleDatePicker';
+import { TaskType } from '@/services/types';
 
 
-const ListLayout = () => {
+const ListLayout = ({ todoTasks, inProgressTasks, completedTasks}: {todoTasks: TaskType[], inProgressTasks: TaskType[], completedTasks: TaskType[]}) => {
     const theme = useTheme();
-    const todoData = [
-      { taskName: "Task 1", dueOn: "2023-01-01", taskStatus: "TO-DO", taskCategory: "Work" },
-      { taskName: "Task 2", dueOn: "2023-01-02", taskStatus: "TO-DO", taskCategory: "Personal" },
-      { taskName: "Task 3", dueOn: "2023-01-03", taskStatus: "TO-DO", taskCategory: "Work" },
-    ];
-
-    const inProgressData = [
-      { taskName: "Task 4", dueOn: "2023-01-04", taskStatus: "IN-PROGRESS", taskCategory: "Work" },
-      { taskName: "Task 5", dueOn: "2023-01-05", taskStatus: "IN-PROGRESS", taskCategory: "Personal" },
-      { taskName: "Task 6", dueOn: "2023-01-06", taskStatus: "IN-PROGRESS", taskCategory: "Work" },
-    ];
-
-    const completedData = [
-      { taskName: "Task 7", dueOn: "2023-01-07", taskStatus: "COMPLETED", taskCategory: "Work" },
-      { taskName: "Task 8", dueOn: "2023-01-08", taskStatus: "COMPLETED", taskCategory: "Personal" },
-      { taskName: "Task 9", dueOn: "2023-01-09", taskStatus: "COMPLETED", taskCategory: "Work" },
-    ];
 
     const isLoading = false;
     
@@ -39,29 +23,23 @@ const ListLayout = () => {
         <Typography variant="h6" sx={{ flex: 0.3, textAlign: 'start', fontSize: '14px', color: theme.palette.black[100_60] }}>Task Category</Typography>
       </Box>
 
-    {/* <Stack sx={{ml: 100}}>
-      <DateRangePicker />
-      
-    </Stack>
-    <Stack sx={{ml: 100}}>
-      <SingleDatePicker /> */}
-      
-    {/* </Stack> */}
-
         <Stack gap="32px">
             <Table
-                data={todoData}
+                data={todoTasks}
+                header="TO-DO"
                 isLoading={isLoading}
                 row={RowComponent}
                 addTaskComponent={AddTaskComponent}
             />
             <Table
-                data={inProgressData}
+                data={inProgressTasks}
+                header="IN-PROGRESS"
                 isLoading={isLoading}
                 row={RowComponent}
             />
             <Table
-                data={completedData}
+                data={completedTasks}
+                header="COMPLETED"
                 isLoading={isLoading}
                 row={RowComponent}
             />

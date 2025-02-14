@@ -2,13 +2,8 @@ import { Stack, Typography, useTheme } from '@mui/material'
 import React, { useMemo } from 'react'
 import Card from './card';
 import { SortableContext } from '@dnd-kit/sortable';
+import { TaskType } from '@/services/types';
 
-interface Item {
-  taskName: string;
-  dueOn: string;
-  taskStatus: string;
-  taskCategory: string;
-}
 
 const headColor: Record<string, string> = {
     'TO-DO': "#FAC3FF",
@@ -16,7 +11,7 @@ const headColor: Record<string, string> = {
     'COMPLETED': '#CEFFCC'
   }
 
-const BoardContainer = ({items, title}: {items: Item[], title: string}) => {
+const BoardContainer = ({items, title}: {items: TaskType[], title: string}) => {
     const theme = useTheme();
     const tasksIds = useMemo(() => {
         return items.map(task => task.taskName)

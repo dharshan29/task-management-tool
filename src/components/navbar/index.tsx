@@ -13,7 +13,6 @@ const Navbar = () => {
   const { user, logout } = useAuthStore();
   const { layout ,setLayout } = useLayoutStore();
   const theme = useTheme();
-  console.log({layout})
 
   return (
     <AppBar position="static" sx={{ px: "32px", pt: "58px" }}>

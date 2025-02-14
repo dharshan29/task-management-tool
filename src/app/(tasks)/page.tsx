@@ -10,8 +10,10 @@ import DateRangePicker from '@/components/datePickers/dateRangePicker';
 import TextEditor from '@/components/textEditor';
 import AddUpdateTaskModal from '@/components/addTaskModal';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getTasks } from '@/services';
+import {  add_task, getTasks } from '@/services';
 import { useTaskStore } from '@/lib/zustand/tasks';
+import { TaskType } from '@/services/types';
+import FloatingAction from '@/components/floatingAction';
 
 interface CategoryOption {
   label: string;
@@ -29,15 +31,6 @@ interface DueDateOption {
   value: string;
 }
 
-export interface TaskType {
-  taskName: string;
-  dueOn: Date;
-  status: 'TO-DO' | 'IN-PROGRESS' | 'COMPLETED';
-  category: 'work' | 'personal';
-  description?: string; // Optional
-  fileLinks?: string[]; // Optional
-}
-
 const dueDateOptions: DueDateOption[] = [
   { label: 'Today', value: 'today' },
   { label: 'Tomorrow', value: 'tomorrow' },
@@ -46,14 +39,22 @@ const dueDateOptions: DueDateOption[] = [
 ];
 
 const Page = () => {
-  
+  const [task, setTask] = React.useState({
+    taskName: '',
+    description: '',
+    dueOn: null as Date | null,
+    status: '',
+    category: ''
+  });
   const [category, setCategory] = React.useState<string>('');
   // const [dueDate, setDueDate] = React.useState<string | null>(null);
+
   const [search, setSearch] = React.useState<string>('');
   const [dateRange, setDateRange] = React.useState<[Date | null, Date | null]>([null, null]);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
 
   const { layout  } = useLayoutStore();
   const { setTasks, tasks } = useTaskStore()
@@ -64,6 +65,20 @@ const Page = () => {
       setTasks(data.tasks);
     },
   });
+
+  const { addTask } = useTaskStore()
+  const { mutate: createTask } = useMutation({
+    mutationFn: add_task,
+    onSuccess: (data) => {
+      addTask(data.task);
+      handleClose();
+    },
+  });
+
+  const handleCreate = (payload: TaskType) => {
+    createTask(payload)
+  }
+
   
   useEffect(() => {
     fetchTasks({
@@ -76,6 +91,10 @@ const Page = () => {
   }, [search, category, dateRange]);
   
   console.log({tasks})
+
+  const todoTasks = tasks.filter(task => task.status === 'TO-DO');
+  const inProgressTasks = tasks.filter(task => task.status === 'IN-PROGRESS');
+  const completedTasks = tasks.filter(task => task.status === 'COMPLETED');
 
 
   return (
@@ -91,8 +110,8 @@ const Page = () => {
                     sx={{width: '90px'}}
                     renderValue={(selected) => selected ? selected : 'Category'}
                 >
-                    <MenuItem value="company">Company</MenuItem>
                     <MenuItem value="work">Work</MenuItem>
+                    <MenuItem value="personal">Personal</MenuItem>
                 </Select>
                 <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
                 </Stack>
@@ -124,11 +143,18 @@ const Page = () => {
                   }} 
                   onClick={handleOpen}
                   >Add Task</Button>
-                  <AddUpdateTaskModal open={open} handleClose={handleClose} />
+                  <AddUpdateTaskModal
+                    open={open} 
+                    handleClose={handleClose} 
+                    handleAction={handleCreate}
+                    data={null}
+                    mode="add"
+                  />
             </Stack>
         </Stack>
-        {layout === 'list'  && <ListLayout />}
-        {layout === 'board' && <BoardLayout />}
+        {layout === 'list'  && <ListLayout  todoTasks={todoTasks}  inProgressTasks={inProgressTasks} completedTasks={completedTasks} />}
+        {layout === 'board' && <BoardLayout todoTasks={todoTasks} inProgressTasks={inProgressTasks} completedTasks={completedTasks} />}
+        {/* {selectedIds.length > 0 && <FloatingAction />} */}
     </Stack>
   );
 };

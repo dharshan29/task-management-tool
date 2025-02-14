@@ -4,11 +4,14 @@ type LayoutType = "list" | "board";
 
 interface LayoutState {
     layout: LayoutType;
+    isDisabled: boolean;
     setLayout: (layout: LayoutType) => void;
-  }
+    setDisabled: (isDisabled: boolean) => void;
+}
 
 export const useLayoutStore = create<LayoutState>((set) => ({
-    layout: "list", 
+    layout: "list",
+    isDisabled: true,
     setLayout: (layout) => set({ layout }),
+    setDisabled: (isDisabled) => set({ isDisabled })
 }))
-    

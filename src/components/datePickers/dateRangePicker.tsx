@@ -16,6 +16,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({dateRange, setDateRang
   return (
     <DatePicker
       selectsRange
+      isClearable
       startDate={startDate}
       endDate={endDate}
       onChange={(update: [Date | null, Date | null]) => setDateRange(update)}

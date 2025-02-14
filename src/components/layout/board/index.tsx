@@ -1,34 +1,33 @@
 import { Box, Divider, useTheme, Typography, Stack } from '@mui/material';
 import BoardContainer from './board';
-import { DndContext } from '@dnd-kit/core';
+import { DndContext, useSensor, useSensors, PointerSensor  } from '@dnd-kit/core';
+import { TaskType } from '@/services/types';
+import { useLayoutStore } from '@/lib/zustand/layout';
 
-const BoardLayout = () => {
+const BoardLayout = ({todoTasks, inProgressTasks, completedTasks}: {todoTasks: TaskType[], inProgressTasks: TaskType[], completedTasks: TaskType[]}) => {
     const theme = useTheme();
-    const todoData = [
-      { taskName: "Task 1", dueOn: "2023-01-01", taskStatus: "TO-DO", taskCategory: "Work" },
-      { taskName: "Task 2", dueOn: "2023-01-02", taskStatus: "TO-DO", taskCategory: "Personal" },
-      { taskName: "Task 3", dueOn: "2023-01-03", taskStatus: "TO-DO", taskCategory: "Work" },
-    ];
+  const { isDisabled, setDisabled } = useLayoutStore();
 
-    const inProgressData = [
-      { taskName: "Task 4", dueOn: "2023-01-04", taskStatus: "IN-PROGRESS", taskCategory: "Work" },
-      { taskName: "Task 5", dueOn: "2023-01-05", taskStatus: "IN-PROGRESS", taskCategory: "Personal" },
-      { taskName: "Task 6", dueOn: "2023-01-06", taskStatus: "IN-PROGRESS", taskCategory: "Work" },
-    ];
+  const sensors = useSensors(useSensor(PointerSensor));
 
-    const completedData = [
-      { taskName: "Task 7", dueOn: "2023-01-07", taskStatus: "COMPLETED", taskCategory: "Work" },
-      { taskName: "Task 8", dueOn: "2023-01-08", taskStatus: "COMPLETED", taskCategory: "Personal" },
-      { taskName: "Task 9", dueOn: "2023-01-09", taskStatus: "COMPLETED", taskCategory: "Work" },
-    ];
-
+  const handleDragStart = () => {
+    setDisabled(true);
+};
+  const handleDragEnd = (event: any) => {
+    setDisabled(false);
+  }
 
   return (
     <Stack flexDirection="row" gap="24px">
-      <DndContext>
-        <BoardContainer items={todoData} title={"TO-DO"}/>
-        <BoardContainer items={inProgressData} title={"IN-PROGRESS"}/>
-        <BoardContainer items={completedData} title={"COMPLETED"}/>
+      <DndContext 
+          sensors={sensors} 
+          onDragStart={handleDragStart} 
+          onDragEnd={handleDragEnd}
+          onDragCancel={() => setDisabled(false)}
+      >
+        <BoardContainer items={todoTasks} title={"TO-DO"}/>
+        <BoardContainer items={inProgressTasks} title={"IN-PROGRESS"}/>
+        <BoardContainer items={completedTasks} title={"COMPLETED"}/>
       </DndContext>
     </Stack>
   );

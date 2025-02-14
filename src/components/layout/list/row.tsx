@@ -1,40 +1,98 @@
-import { Box, Button, Stack, TableCell, TableRow, Typography, useTheme } from '@mui/material';
+import { Box, Button, IconButton, Stack, TableCell, TableRow, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 import React, { useState } from 'react'
 import selectIcon from '@/assets/icons/select.svg';
 import dragIcon from '@/assets/icons/drag.svg';
 import unCheckedIcon from '@/assets/icons/unchecked.svg';
 import AddPopper from '@/components/customPopper/addPopper';
+import moreIcon from '@/assets/icons/more.svg'
+import { TaskType } from '@/services/types';
+import ActionPopper from '@/components/customPopper/actionPopper';
+import { useTaskStore } from '@/lib/zustand/tasks';
+import { useMutation } from '@tanstack/react-query';
+import { removeTasks, update_Task, updateTaskStatus } from '@/services';
+import AddUpdateTaskModal from '@/components/addTaskModal';
 
 interface RowProps {
-  data: {
-    taskName: string;
-    dueOn: string;
-    taskStatus: string;
-    taskCategory: string;
-  };
+  data: TaskType
 }
 
 const RowComponent: React.FC<RowProps> = ({ data }) => {
   const theme = useTheme();
 
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+    const [actionEl, setActionEl] = useState<HTMLElement | null>(null);
     const [open, setOpen] = useState(false);
+    const [openAction, setOpenAction] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
     const [selected, setSelected] = useState("false");
+    const [selectedStatusId, setSelectedtatusId] = useState("");
+    const [selectedTask, setSelectedTask] = useState<TaskType>();
 
     const statusOptions = ['TO-DO', 'IN-PROGRESS', 'COMPLETED'];
 
+    const { deleteTasks, taskStatusUpdate } = useTaskStore()
+    const { mutate: mutateDeleteTasks, isError } = useMutation({
+      mutationFn: removeTasks,
+      onSuccess: (data) => {
+        deleteTasks(data.deletedIds);
+      },
+    });
+
+    const { updateTask } = useTaskStore()
+    const { mutate: mutateUpdateTask } = useMutation({
+      mutationFn: update_Task,
+      onSuccess: (data) => {
+        updateTask(data.task);
+        setModalOpen(false);
+      },
+    });
+
+    const { mutate: mutateUpdateTaskStatus } = useMutation({
+      mutationFn: updateTaskStatus,
+      onSuccess: (data) => {
+        taskStatusUpdate(data.ids, data.status);
+        setModalOpen(false);
+      },
+    });
+  
+    const handleUpdate = (payload: TaskType) => {
+      mutateUpdateTask({...payload, _id: selectedTask?._id})
+    }
+
     const onClose = () => setOpen(false);
+    const onActionClose = () => setOpenAction(false);
+    const onModalClose = () => setModalOpen(false);
+    
     const onSelect = (option: string) => {
         console.log(option);
+        mutateUpdateTaskStatus({ids: [selectedStatusId], status: option})
         setOpen(false);
     };
 
-    const handleClick = (event: React.MouseEvent<HTMLElement>, selected: string) => {
-        setSelected(selected)
+
+    const onActionSelect = (option: string) => {
+      if(option === 'delete'){
+        mutateDeleteTasks({ids: [selectedTask?._id]})
+      }else {
+        setModalOpen(true);
+        console.log(selectedTask)
+      }
+      setOpenAction(false)
+    }
+
+    const handleAction = (event: React.MouseEvent<HTMLElement>, item: TaskType) => {
+      setSelectedTask(item)
+      setActionEl(event.currentTarget);
+      setOpenAction((previousOpen) => !previousOpen);
+    }
+
+    const handleClick = (event: React.MouseEvent<HTMLElement>, item: TaskType) => {
+        setSelectedtatusId(item?._id || "");
+        setSelected(item?.status)
         setAnchorEl(event.currentTarget);
         setOpen((previousOpen) => !previousOpen);
-      };
+    };
 
   return (
     <TableRow hover sx={{height: '48px'}}>
@@ -50,22 +108,27 @@ const RowComponent: React.FC<RowProps> = ({ data }) => {
       </TableCell>
       <TableCell component="th" scope="row" sx={{width: '20%', pl: 0}}>
         <Typography variant='body2' sx={{fontWeight: 500, color: theme.palette.black[100]}}>
-              {data.dueOn}
+            {typeof data.dueOn === 'string' ? new Date(data.dueOn).toLocaleDateString() : data.dueOn.toLocaleDateString()}
           </Typography>
       </TableCell>
       <TableCell component="th" scope="row" sx={{width: '20%', pl: 0}}>
-        <Button onClick={(e) => handleClick(e, data.taskStatus)} sx={{p:'4px 10px',height: '28px !important', background: theme.palette.border[300], borderRadius: '4px', width: 'fit-content'}}>
+        <Button onClick={(e) => handleClick(e, data)} sx={{p:'4px 10px',height: '28px !important', background: theme.palette.border[300], borderRadius: '4px', width: 'fit-content'}}>
           <Typography variant='body2' sx={{fontWeight: 500, color: theme.palette.black[100]}}>
-                {data.taskStatus}
+                {data.status}
             </Typography>
         </Button>
       </TableCell>
-      <TableCell component="th" scope="row" sx={{width: '30%', pl: 0}}>
+      <TableCell component="th" scope="row" sx={{display:'flex', width: '100%', pl: 0, flexDirection: 'row' , alignItems: "center", justifyContent: 'space-between'}}>
         <Typography variant='body2' sx={{fontWeight: 500, color: theme.palette.black[100]}}>
-              {data.taskCategory}
+              {data.category}
           </Typography>
+          <IconButton onClick={(e) => handleAction(e, data)}>
+            <Image src={moreIcon} alt='more' />
+          </IconButton>
       </TableCell>
       <AddPopper anchorEl={anchorEl} open={open} onClose={onClose} options={statusOptions || []} onSelect={onSelect} selected={selected} placement='bottom'/>
+      <ActionPopper anchorEl={actionEl} open={openAction} onClose={onActionClose}  onActionSelect={onActionSelect} placement='left-start'/>
+      <AddUpdateTaskModal open={modalOpen} handleClose={onModalClose} handleAction={handleUpdate} mode='update' data={selectedTask || null}/>
     </TableRow>
   )
 }
