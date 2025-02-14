@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import selectIcon from '@/assets/icons/select.svg';
 import dragIcon from '@/assets/icons/drag.svg';
 import unCheckedIcon from '@/assets/icons/unchecked.svg';
+import CheckmarkIcon from '@/assets/icons/checkmark.svg';
 import AddPopper from '@/components/customPopper/addPopper';
 import moreIcon from '@/assets/icons/more.svg'
 import { TaskType } from '@/services/types';
@@ -12,6 +13,7 @@ import { useTaskStore } from '@/lib/zustand/tasks';
 import { useMutation } from '@tanstack/react-query';
 import { removeTasks, update_Task, updateTaskStatus } from '@/services';
 import AddUpdateTaskModal from '@/components/addTaskModal';
+import { useLayoutStore } from '@/lib/zustand/layout';
 
 interface RowProps {
   data: TaskType
@@ -31,6 +33,7 @@ const RowComponent: React.FC<RowProps> = ({ data }) => {
 
     const statusOptions = ['TO-DO', 'IN-PROGRESS', 'COMPLETED'];
 
+    const { selectedIds, toggleSelectedId } = useLayoutStore();
     const { deleteTasks, taskStatusUpdate } = useTaskStore()
     const { mutate: mutateDeleteTasks, isError } = useMutation({
       mutationFn: removeTasks,
@@ -98,8 +101,12 @@ const RowComponent: React.FC<RowProps> = ({ data }) => {
     <TableRow hover sx={{height: '48px'}}>
       <TableCell component="th" scope="row" sx={{width: '30%'}}>
         <Stack flexDirection="row" alignItems="center">
-            <Image src={selectIcon} alt='select'/>
-            <Image src={dragIcon} alt='drag'/>
+            <IconButton sx={{ p:0 }} onClick={() => toggleSelectedId(data._id ?? '')}>
+              {selectedIds.includes(data._id || '') ? <Image src={CheckmarkIcon} alt='unselect'/> : <Image src={selectIcon} alt='select'/>}
+            </IconButton>
+            <IconButton sx={{ p:0 }}>
+              <Image src={dragIcon} alt='drag'/>
+            </IconButton>
             <Image src={unCheckedIcon} alt='uncheck'/>
             <Typography sx={{pl: '5px', fontWeight: 500, color: theme.palette.black[100]}} variant='body2'>
                 {data.taskName}
@@ -118,13 +125,15 @@ const RowComponent: React.FC<RowProps> = ({ data }) => {
             </Typography>
         </Button>
       </TableCell>
-      <TableCell component="th" scope="row" sx={{display:'flex', width: '100%', pl: 0, flexDirection: 'row' , alignItems: "center", justifyContent: 'space-between'}}>
-        <Typography variant='body2' sx={{fontWeight: 500, color: theme.palette.black[100]}}>
-              {data.category}
+      <TableCell component="th" scope="row" sx={{ pl: 0}}>
+        <Stack sx={{width: '100%', flexDirection: 'row' , alignItems: "center", justifyContent: 'space-between'}}>
+          <Typography variant='body2' sx={{fontWeight: 500, color: theme.palette.black[100]}}>
+                {data.category}
           </Typography>
           <IconButton onClick={(e) => handleAction(e, data)}>
-            <Image src={moreIcon} alt='more' />
+              <Image src={moreIcon} alt='more' />
           </IconButton>
+        </Stack>
       </TableCell>
       <AddPopper anchorEl={anchorEl} open={open} onClose={onClose} options={statusOptions || []} onSelect={onSelect} selected={selected} placement='bottom'/>
       <ActionPopper anchorEl={actionEl} open={openAction} onClose={onActionClose}  onActionSelect={onActionSelect} placement='left-start'/>

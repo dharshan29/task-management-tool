@@ -37,6 +37,7 @@ const AddTaskComponent = () => {
       mutationFn: add_task,
       onSuccess: (data) => {
         addTask(data.task);
+        reset();
       },
     });
   
@@ -49,11 +50,14 @@ const AddTaskComponent = () => {
     }
 
     const handleClose = () => {
+        reset();
+        setShowTask(false)
+    }
+    const reset = () => {
         setText("");
         setSelectedDate(null);
         setStatus('')
         setCategory('')
-        setShowTask(false)
     }
 
     const onSelect = (option: string) => {
@@ -72,8 +76,6 @@ const AddTaskComponent = () => {
         setAnchorEl(event.currentTarget);
         setOpen((previousOpen) => !previousOpen);
     };
-
-
 
     return (
         <Stack>

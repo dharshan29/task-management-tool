@@ -56,7 +56,7 @@ const Page = () => {
   const handleClose = () => setOpen(false);
 
 
-  const { layout  } = useLayoutStore();
+  const { layout , selectedIds } = useLayoutStore();
   const { setTasks, tasks } = useTaskStore()
   const theme = useTheme();
   const { mutate: fetchTasks, isError } = useMutation({
@@ -154,7 +154,7 @@ const Page = () => {
         </Stack>
         {layout === 'list'  && <ListLayout  todoTasks={todoTasks}  inProgressTasks={inProgressTasks} completedTasks={completedTasks} />}
         {layout === 'board' && <BoardLayout todoTasks={todoTasks} inProgressTasks={inProgressTasks} completedTasks={completedTasks} />}
-        {/* {selectedIds.length > 0 && <FloatingAction />} */}
+        {selectedIds.length > 0 && <FloatingAction />}
     </Stack>
   );
 };
