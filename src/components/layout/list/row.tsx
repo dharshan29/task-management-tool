@@ -14,6 +14,7 @@ import { useMutation } from '@tanstack/react-query';
 import { removeTasks, update_Task, updateTaskStatus } from '@/services';
 import AddUpdateTaskModal from '@/components/addTaskModal';
 import { useLayoutStore } from '@/lib/zustand/layout';
+import { useDraggable } from '@dnd-kit/core';
 
 interface RowProps {
   data: TaskType
@@ -32,6 +33,15 @@ const RowComponent: React.FC<RowProps> = ({ data }) => {
     const [selectedTask, setSelectedTask] = useState<TaskType>();
 
     const statusOptions = ['TO-DO', 'IN-PROGRESS', 'COMPLETED'];
+
+    const { attributes, listeners, setNodeRef, transform } = useDraggable({ 
+      id: data._id || '', 
+      data: { data } 
+  });
+
+  const style = transform ? {
+    transform: `translate(${transform.x}px, ${transform.y}px)`,
+  } : undefined
 
     const { selectedIds, toggleSelectedId } = useLayoutStore();
     const { deleteTasks, taskStatusUpdate } = useTaskStore()
@@ -98,13 +108,19 @@ const RowComponent: React.FC<RowProps> = ({ data }) => {
     };
 
   return (
-    <TableRow hover sx={{height: '48px'}}>
-      <TableCell component="th" scope="row" sx={{width: '30%'}}>
+    <TableRow 
+      ref={setNodeRef}
+      style={style}
+      hover sx={{height: '48px', position: 'relative', zIndex: 99}}>
+      <TableCell component="th" scope="row" sx={{width: '30%', backgroundColor: 'background.paper'}}>
         <Stack flexDirection="row" alignItems="center">
             <IconButton sx={{ p:0 }} onClick={() => toggleSelectedId(data._id ?? '')}>
               {selectedIds.includes(data._id || '') ? <Image src={CheckmarkIcon} alt='unselect'/> : <Image src={selectIcon} alt='select'/>}
             </IconButton>
-            <IconButton sx={{ p:0 }}>
+            <IconButton sx={{ p:0 }} 
+              {...attributes}
+              {...listeners}
+            >
               <Image src={dragIcon} alt='drag'/>
             </IconButton>
             <Image src={unCheckedIcon} alt='uncheck'/>

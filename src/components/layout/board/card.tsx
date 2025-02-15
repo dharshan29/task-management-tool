@@ -1,9 +1,8 @@
-"use client"
 import { IconButton, Stack, Typography, useTheme } from '@mui/material'
 import Image from 'next/image';
 import moreIcon from '@/assets/icons/more.svg'
 import React, { useState } from 'react'
-import { useSortable } from '@dnd-kit/sortable';
+import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import { TaskType } from '@/services/types';
 import ActionPopper from '@/components/customPopper/actionPopper';
@@ -13,7 +12,6 @@ import { removeTasks, update_Task } from '@/services';
 import { useLayoutStore } from '@/lib/zustand/layout';
 import AddUpdateTaskModal from '@/components/addTaskModal';
 
-  
 const Card = ({item}: {item: TaskType}) => {
     const theme = useTheme();
     
@@ -22,16 +20,21 @@ const Card = ({item}: {item: TaskType}) => {
     const [actionEl, setActionEl] = useState<HTMLElement | null>(null);
     const [selected, setSelected] = useState<TaskType>();
 
-    const { isDisabled } = useLayoutStore();
+    const { isDisabled, setDisabled } = useLayoutStore();
     
-    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: item.taskName, disabled: isDisabled });
-    const style = {
-        transform: CSS.Transform.toString(transform),
-        transition
-    };
+    const { attributes, listeners, setNodeRef, transform } = useDraggable({ 
+        id: item._id || '', 
+        disabled: isDisabled,
+        data: { item } 
+    });
+
+
+    const style = transform ? {
+        transform: `translate(${transform.x}px, ${transform.y}px)`,
+    } : undefined
 
     const { deleteTasks } = useTaskStore()
-    const { mutate: mutateDeleteTasks, isError } = useMutation({
+    const { mutate: mutateDeleteTasks } = useMutation({
       mutationFn: removeTasks,
       onSuccess: (data) => {
         deleteTasks(data.deletedIds);
@@ -51,25 +54,27 @@ const Card = ({item}: {item: TaskType}) => {
       mutateUpdateTask({...payload, _id: selected?._id})
     }
 
-    const onActionClose = () => setOpenAction(false);
+    const onActionClose = () => {
+        setDisabled(false)
+        setOpenAction(false);
+    }
     const onModalClose = () => setModalOpen(false);
 
     const onActionSelect = (option: string) => {
         if(option === 'delete'){
           mutateDeleteTasks({ids: [selected?._id]})
-        }else {
+        } else {
             setModalOpen(true);
         }
         setOpenAction(false)
       }
   
-      const handleAction = (event: React.MouseEvent<HTMLElement>, item: TaskType) => {
-        console.log("herrr")
+    const handleAction = (event: React.MouseEvent<HTMLElement>, item: TaskType) => {
         setSelected(item)
         setActionEl(event.currentTarget);
         setOpenAction((previousOpen) => !previousOpen);
-      }
-    
+    }
+
     return (
         <Stack  
             ref={setNodeRef}
@@ -81,7 +86,8 @@ const Card = ({item}: {item: TaskType}) => {
                 border: `0.5px solid ${theme.palette.border[100_28]}`,
                 borderRadius: '12px', 
                 height: '110px',
-                bgcolor: theme.palette.background.default
+                bgcolor: theme.palette.background.default,
+                cursor: isDisabled ? 'pointer' : 'grab'
             }}
         >
             <Stack 
@@ -95,7 +101,11 @@ const Card = ({item}: {item: TaskType}) => {
                     sx={{ p: 0 }}
                     onClick={(e) => {
                         e.stopPropagation(); 
+                        setDisabled(true)
                         handleAction(e, item); 
+                    }}
+                    onPointerDown={(e) => {
+                        e.stopPropagation(); 
                     }}
                 >
                     <Image src={moreIcon} alt='more' />

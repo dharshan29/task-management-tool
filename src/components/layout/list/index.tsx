@@ -5,13 +5,46 @@ import RowComponent from './row';
 import DateRangePicker from '../../datePickers/dateRangePicker';
 import SingleDatePicker from '../../datePickers/singleDatePicker';
 import { TaskType } from '@/services/types';
+import { DndContext, DragOverlay } from '@dnd-kit/core';
+import { useTaskStore } from '@/lib/zustand/tasks';
+import { useMutation } from '@tanstack/react-query';
+import { updateTaskStatus } from '@/services';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
 
 
 const ListLayout = ({ todoTasks, inProgressTasks, completedTasks}: {todoTasks: TaskType[], inProgressTasks: TaskType[], completedTasks: TaskType[]}) => {
     const theme = useTheme();
 
     const isLoading = false;
+    const [activeCard, setActiveCard] = useState<TaskType | null>(null);
+
+    const { taskStatusUpdate } = useTaskStore();
+
+    const { mutate: mutateUpdateTaskStatus } = useMutation({
+      mutationFn: updateTaskStatus,
+      onSuccess: (data) => {
+        taskStatusUpdate(data.ids, data.status);
+      },
+    });
+
+    const handleDragStart = (event: any) => {
+      setActiveCard(event.active.data.current?.item || null);
+    };
     
+    const handleDragEnd = (event: any) => {
+      const { active, over } = event;
+      if (!over) return;
+  
+      const taskId = active.id;
+      const newStatus = over.id; // The board container ID
+  
+      if (!["TO-DO", "IN-PROGRESS", "COMPLETED"].includes(newStatus)) return;
+  
+      // Update task status
+      mutateUpdateTaskStatus({ ids: [taskId], status: newStatus });
+    };
+  
 
   return (
     <Box>
@@ -24,6 +57,7 @@ const ListLayout = ({ todoTasks, inProgressTasks, completedTasks}: {todoTasks: T
       </Box>
 
         <Stack gap="32px">
+          <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} >
             <Table
                 data={todoTasks}
                 header="TO-DO"
@@ -43,6 +77,13 @@ const ListLayout = ({ todoTasks, inProgressTasks, completedTasks}: {todoTasks: T
                 isLoading={isLoading}
                 row={RowComponent}
             />
+              {createPortal(
+                  <DragOverlay style={{backgroundColor: '#F1F1F1'}}>
+                      {activeCard ? <RowComponent data={activeCard} /> : null}
+                  </DragOverlay>,
+                  document.body
+              )}
+          </DndContext>
         </Stack>
     </Box>
   );

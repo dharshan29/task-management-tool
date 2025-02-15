@@ -18,7 +18,7 @@ export const useLayoutStore = create<LayoutState>()(
         (set) => ({
             layout: "list",
             selectedIds: [],
-            isDisabled: true,
+            isDisabled: false,
             setLayout: (layout) => set({ layout }),
             setDisabled: (isDisabled) => set({ isDisabled }),
             toggleSelectedId: (id) =>
