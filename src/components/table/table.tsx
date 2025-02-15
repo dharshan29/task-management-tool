@@ -19,11 +19,11 @@ export default function CustomTable({ data, header, isLoading, row: RowComponent
     console.log({data})
 
     return (
-        <TableContainer ref={setNodeRef} sx={{borderRadius: '12px'}}>
+        <TableContainer  sx={{borderRadius: '12px'}}>
             <Table size="small">
                 <TableHeadMain count={data?.length ?? 0}  header={header} status={data ? (data[0] as any)?.status : undefined} body={body} setBody={setBody} />
                 {body && 
-                <TableBody sx={{bgcolor: theme.palette.background.paper, transition: 'transform 0.3s ease-in-out'}}>
+                <TableBody ref={setNodeRef} sx={{bgcolor: theme.palette.background.paper, transition: 'transform 0.3s ease-in-out'}}>
                     {AddTaskComponent && (
                         <TableRow>
                             <TableCell colSpan={4} sx={{ border: 'none', p: 0 }}>

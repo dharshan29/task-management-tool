@@ -38,6 +38,7 @@ const Card = ({item}: {item: TaskType}) => {
       mutationFn: removeTasks,
       onSuccess: (data) => {
         deleteTasks(data.deletedIds);
+        setDisabled(false)
       },
     });
 
@@ -47,6 +48,7 @@ const Card = ({item}: {item: TaskType}) => {
       onSuccess: (data) => {
         updateTask(data.task);
         setModalOpen(false);
+        setDisabled(false)
       },
     });
   
@@ -58,7 +60,10 @@ const Card = ({item}: {item: TaskType}) => {
         setDisabled(false)
         setOpenAction(false);
     }
-    const onModalClose = () => setModalOpen(false);
+    const onModalClose = () => {
+        setModalOpen(false)
+        setDisabled(false)
+    };
 
     const onActionSelect = (option: string) => {
         if(option === 'delete'){

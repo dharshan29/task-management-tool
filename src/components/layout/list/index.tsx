@@ -78,7 +78,7 @@ const ListLayout = ({ todoTasks, inProgressTasks, completedTasks}: {todoTasks: T
                 row={RowComponent}
             />
               {createPortal(
-                  <DragOverlay style={{backgroundColor: '#F1F1F1'}}>
+                  <DragOverlay style={{backgroundColor: '#F1F1F1', color: 'black'}}>
                       {activeCard ? <RowComponent data={activeCard} /> : null}
                   </DragOverlay>,
                   document.body

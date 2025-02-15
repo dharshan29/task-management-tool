@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useRef } from 'react';
-import { Box, Stack, TextField, Button, Autocomplete, MenuItem, InputAdornment, Select, useTheme } from '@mui/material';
+import { Box, Stack, TextField, Button, Autocomplete, MenuItem, InputAdornment, Select, useTheme, Typography, IconButton } from '@mui/material';
 import Image from 'next/image';
 import searchIcon from '@/assets/icons/search.svg'
 import { useLayoutStore } from '@/lib/zustand/layout';
@@ -14,6 +14,7 @@ import {  add_task, getTasks } from '@/services';
 import { useTaskStore } from '@/lib/zustand/tasks';
 import { TaskType } from '@/services/types';
 import FloatingAction from '@/components/floatingAction';
+import { ArrowDropDown, Close, KeyboardArrowDownOutlined } from '@mui/icons-material';
 
 interface CategoryOption {
   label: string;
@@ -101,19 +102,63 @@ const Page = () => {
     <Stack gap="34px">
         <Stack direction="row" spacing={2} sx={{ justifyContent: 'space-between' }}>
             <Stack direction="column" spacing={2} alignItems="center">
-                <Stack direction="row" spacing={2}>
-                <Select
+                <Stack direction="row" gap="10px" alignItems="center">
+                  <Typography variant='caption' sx={{fontWeight: 600, color: theme.palette.black[100_60]}}>
+                      Filter by:
+                  </Typography>
+                  <Select
                     id="category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                     displayEmpty
-                    sx={{width: '90px'}}
+                    IconComponent={(props) =>
+                     category === "" && <KeyboardArrowDownOutlined sx={{top: '7px !important', height: '15px', width: '15px'}} {...props} />
+                    }
+                    endAdornment={
+                      category && (
+                        <IconButton
+                          size="small"
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevents the dropdown from opening
+                            setCategory("");
+                          }}
+                          sx={{ padding: "0px" }}
+                        >
+                          <Close fontSize="small" sx={{height: '15px', width: '15px'}}/>
+                        </IconButton>
+                      )
+                    }
+                    sx={{
+                      fontSize: '12px', 
+                      width: '90px', 
+                      '& .MuiSelect-select': {
+                        fontSize: '12px', 
+                        padding: '8px', // Adjust padding if needed
+                      },
+                    }}
+                    MenuProps={{
+                      PaperProps: {
+                        sx: {
+                          width: '90px',
+                          bgcolor: 'background.soft',
+                          borderRadius: "12px",
+                          border: "1px solid #7B198426",
+                          fontSize: '12px',
+                          '& .MuiMenuItem-root': {
+                            fontSize: '12px',
+                            '&:hover': { bgcolor: '#F1F1F1' },
+                            '&.Mui-selected': { bgcolor: '#7B1984', color: 'white' },
+                          },
+                        },
+                      },
+                    }}
                     renderValue={(selected) => selected ? selected : 'Category'}
-                >
+                  >
                     <MenuItem value="work">Work</MenuItem>
                     <MenuItem value="personal">Personal</MenuItem>
-                </Select>
-                <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
+                  </Select>
+
+                  <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
                 </Stack>
             </Stack>
             <Stack direction="row" spacing={2} alignItems="center">

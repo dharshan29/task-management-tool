@@ -1,10 +1,11 @@
 /* Custom DatePicker Styles */
 .custom-datepicker {
+    max-width: 90px;
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
+    border: 1px solid #00000033;
+    border-radius: 60px;
+    font-size: 12px;
     cursor: pointer;
   }
 

@@ -111,7 +111,7 @@ const RowComponent: React.FC<RowProps> = ({ data }) => {
     <TableRow 
       ref={setNodeRef}
       style={style}
-      hover sx={{height: '48px', position: 'relative', zIndex: 99}}>
+      hover sx={{height: '48px'}}>
       <TableCell component="th" scope="row" sx={{width: '30%', backgroundColor: 'background.paper'}}>
         <Stack flexDirection="row" alignItems="center">
             <IconButton sx={{ p:0 }} onClick={() => toggleSelectedId(data._id ?? '')}>

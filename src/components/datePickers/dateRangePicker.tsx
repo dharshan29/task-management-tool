@@ -20,7 +20,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({dateRange, setDateRang
       startDate={startDate}
       endDate={endDate}
       onChange={(update: [Date | null, Date | null]) => setDateRange(update)}
-      placeholderText="Select Date Range"
+      placeholderText="Due On"
       dateFormat="MM/dd/yyyy"
       minDate={subYears(new Date(), 5)}
       maxDate={addYears(new Date(), 5)}
