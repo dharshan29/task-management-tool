@@ -105,7 +105,16 @@ const AddTaskComponent = () => {
                     <Stack flexDirection="row" sx={{height: '114px', pt: '13px', pb: '25px'}}>
                         <Stack sx={{flex: 0.3}}>
                             <Stack sx={{pl: '77px', height: '100%', justifyContent: 'space-between'}}>
-                                <TextField variant='standard' placeholder='Task Title' value={text} onChange={(e) => setText(e.target.value)}/>
+                                <TextField 
+                                    variant='standard'
+                                    placeholder='Task Title' 
+                                    value={text} 
+                                    sx={{
+                                        '& .MuiInput-underline:before': { borderBottom: 'none' }, 
+                                        '& .MuiInput-underline:after': { borderBottom: 'none' },  
+                                        '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottom: 'none' }, 
+                                      }}
+                                    onChange={(e) => setText(e.target.value)}/>
                                 <Stack flexDirection="row" gap="10px">
                                     <Button variant='contained'     
                                         onClick={handleCreate}
@@ -124,17 +133,23 @@ const AddTaskComponent = () => {
                             </Stack>
                         </Stack>
                         <Stack sx={{flex: 0.2}}>
-                            <SingleDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
+                            <SingleDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} mode='noraml'/>
                         </Stack>
-                        <Stack sx={{flex: 0.2}}>
-                            <IconButton onClick={(e) => handleClick(e, 'statusOptions')} sx={{height: "30px", width: '30px', border: `1px solid ${theme.palette.black[100_20]}`}}>
-                                <Image src={addIcon} alt='add' />
-                            </IconButton>
+                        <Stack sx={{flex: 0.2}} >
+                            <Stack flexDirection="row"  gap="4px" alignItems="center">
+                                <IconButton onClick={(e) => handleClick(e, 'statusOptions')} sx={{height: "30px", width: '30px', border: `1px solid ${theme.palette.black[100_20]}`}}>
+                                    <Image src={addIcon} alt='add' />
+                                </IconButton>
+                                <Typography variant='caption' sx={{textAlign: 'center'}}>{status}</Typography>
+                            </Stack>
                         </Stack>
-                        <Stack sx={{flex: 0.3}}>
-                            <IconButton onClick={(e) => handleClick(e, 'categoryOptions')}  sx={{height: "30px", width: '30px', border: `1px solid ${theme.palette.black[100_20]}`}}>
-                                <Image src={addIcon} alt='add' />
-                            </IconButton>
+                        <Stack sx={{flex: 0.3}}  >
+                            <Stack flexDirection="row"  gap="4px" alignItems="center">
+                                <IconButton onClick={(e) => handleClick(e, 'categoryOptions')}  sx={{height: "30px", width: '30px', border: `1px solid ${theme.palette.black[100_20]}`}}>
+                                    <Image src={addIcon} alt='add' />
+                                </IconButton>
+                                <Typography variant='caption' sx={{textAlign: 'center', textTransform: 'uppercase'}}>{category}</Typography>
+                            </Stack>
                         </Stack>
                         <AddPopper 
                             anchorEl={anchorEl} 

@@ -43,7 +43,7 @@ const Card = ({item}: {item: TaskType}) => {
     });
 
     const { updateTask } = useTaskStore()
-    const { mutate: mutateUpdateTask } = useMutation({
+    const { mutate: mutateUpdateTask, isPending } = useMutation({
       mutationFn: update_Task,
       onSuccess: (data) => {
         updateTask(data.task);
@@ -128,7 +128,7 @@ const Card = ({item}: {item: TaskType}) => {
                 </Typography>
             </Stack>
             <ActionPopper anchorEl={actionEl} open={openAction} onClose={onActionClose}  onActionSelect={onActionSelect} placement='left-start'/>
-            <AddUpdateTaskModal open={modalOpen} handleClose={onModalClose} handleAction={handleUpdate} mode='update' data={selected || null}/>
+            <AddUpdateTaskModal open={modalOpen} loading={isPending} handleClose={onModalClose} handleAction={handleUpdate} mode='update' data={selected || null}/>
         </Stack>
     )
 }

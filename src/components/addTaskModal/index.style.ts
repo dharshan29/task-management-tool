@@ -34,7 +34,7 @@ const useStyles = (theme: Theme) => ({
         border: '1px solid #00000021',
         borderRadius: '8px',
         padding: '0 8px',
-        fontSize: '14px',
+        fontSize: {xs: '12px', sm: '14px'},
         background: "#F1F1F15C"
     },
     footer: {
@@ -61,6 +61,22 @@ const useStyles = (theme: Theme) => ({
             bgcolor: 'secondary.light',
             color: '#fff',
         }
+    },
+    toggleButton: {
+        height: '30px',
+        color: theme.palette.black[100_60],
+        border: "1px solid #00000033",
+        minHeight: '30px', 
+        borderRadius: '60px',
+        fontSize: '12px',
+        fontWeight: 600,
+        flex: 1,
+        gap: '16px'
+    },
+    activeButton: {
+        background: "#271E1E",
+        color: '#ffffff',
+        fontWeight: 800
     }
   });
     

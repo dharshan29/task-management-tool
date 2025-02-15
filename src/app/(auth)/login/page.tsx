@@ -1,8 +1,9 @@
 "use client"
 
-import { Box, Button, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Button, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import Task from '@/assets/icons/task.svg'
 import TaskImage from '@/assets/images/Task_list_view.svg'
+import GoogleIcon from '@/assets/icons/google.svg'
 import Image from 'next/image'
 import { urbanist } from "@/theme/typography";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
@@ -11,9 +12,11 @@ import { google } from "@/services";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/zustand/user'
+import useStyles from "./index.style";
 
 const Login = () => {
   const theme = useTheme();
+  const styles = useStyles(theme); 
   const queryClient = useQueryClient();
   const router = useRouter();
   const { setUser } = useAuthStore();
@@ -56,12 +59,15 @@ const Login = () => {
       console.error("Error signing in with Google:", error);
     }
   }
+
+  const isLaptop = useMediaQuery(theme.breakpoints.up('sm'))
+
   return (
     <>
       <Box sx={{ background: theme => theme.palette.background.soft, height: '100vh'}} >
         <Stack flexDirection="row" height="100%">
-          <Stack sx={{ maxWidth: {md: '366px', xs: '296px',margin: 'auto', marginRight: '83px', marginLeft: '66px', gap: '31.5px'}}}>
-            <Stack sx={{maxWidth: '300px'}}>
+          <Stack sx={styles.container}>
+            <Stack sx={{maxWidth: '300px', alignItems: {xs: 'center', sm : 'flex-start'}}}>
               <Stack flexDirection="row" alignItems="center" >
                 <Image 
                   src={Task}
@@ -73,29 +79,47 @@ const Login = () => {
               </Stack>
               <Typography variant="caption" pl="5px" 
                 sx={{
+                  mt: '6px',
                   color: theme.palette.black[100], 
                   width: '294px', 
-                  fontSize: '11.6px', 
+                  fontSize: '11.3px', 
                   fontWeight: 500,
-                  fontFamily: urbanist.style.fontFamily
+                  fontFamily: urbanist.style.fontFamily,
+                  textAlign: {xs: 'center', sm : 'justify'}
                 }}>
                 Streamline your workflow and track progress effortlessly with our all-in-one task management app.
               </Typography>
             </Stack>
               <Button variant="contained" 
+                sx={{
+                  display: 'flex',
+                  gap: '12px',
+                  flexDirection: 'row',
+                  height: '60px',
+                  minHeight: '60px',
+                  width: { xs: '260px', sm: '364px' },
+                  borderRadius: '19px',
+                  bgcolor: theme.palette.black[500],
+                  textTransform: 'none'
+                }}
                 onClick={signInWithGoogle}
               >
+                <Image src={GoogleIcon} alt="google"/>
+                <Typography variant="h3" sx={{fontFamily: urbanist.style.fontFamily, fontSize: {xs : '16px' , sm: '22px'}, color: '#ffffff'}}>
                   Continue with Google
+                </Typography>
               </Button>
             </Stack>
 
-          <Stack sx={{flex: 1, position: 'relative'}}>
-              <Image 
+            {isLaptop && (
+              <Stack sx={{ flex: 1, position: 'relative', display: { xs: 'none', sm: 'flex' } }}>
+                <Image
                   src={TaskImage}
                   alt="Task Image"
-                  style={{position: 'absolute', top: '95px', right: 0}}
-              />
-          </Stack>
+                  style={{ position: 'absolute', top: '95px', right: 0 }}
+                />
+              </Stack>
+            )}
         </Stack>
       </Box>
     </>

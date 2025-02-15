@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useRef } from 'react';
-import { Box, Stack, TextField, Button, Autocomplete, MenuItem, InputAdornment, Select, useTheme, Typography, IconButton } from '@mui/material';
+import { Box, Stack, TextField, Button, Autocomplete, MenuItem, InputAdornment, Select, useTheme, Typography, IconButton, useMediaQuery } from '@mui/material';
 import Image from 'next/image';
 import searchIcon from '@/assets/icons/search.svg'
 import { useLayoutStore } from '@/lib/zustand/layout';
@@ -14,7 +14,7 @@ import {  add_task, getTasks } from '@/services';
 import { useTaskStore } from '@/lib/zustand/tasks';
 import { TaskType } from '@/services/types';
 import FloatingAction from '@/components/floatingAction';
-import { ArrowDropDown, Close, KeyboardArrowDownOutlined } from '@mui/icons-material';
+import { ArrowDropDown, Cancel, CancelOutlined, Close, KeyboardArrowDownOutlined } from '@mui/icons-material';
 
 interface CategoryOption {
   label: string;
@@ -57,7 +57,7 @@ const Page = () => {
   const handleClose = () => setOpen(false);
 
 
-  const { layout , selectedIds } = useLayoutStore();
+  const { layout, setLayout , selectedIds } = useLayoutStore();
   const { setTasks, tasks } = useTaskStore()
   const theme = useTheme();
   const { mutate: fetchTasks, isError } = useMutation({
@@ -68,7 +68,7 @@ const Page = () => {
   });
 
   const { addTask } = useTaskStore()
-  const { mutate: createTask } = useMutation({
+  const { mutate: createTask, isPending } = useMutation({
     mutationFn: add_task,
     onSuccess: (data) => {
       addTask(data.task);
@@ -93,6 +93,13 @@ const Page = () => {
   
   console.log({tasks})
 
+  const isLaptop = useMediaQuery(theme.breakpoints.up('sm'))
+  useEffect(() => {
+    if(!isLaptop && layout === "board"){
+      setLayout("list")
+    }
+  }, [isLaptop])
+
   const todoTasks = tasks.filter(task => task.status === 'TO-DO');
   const inProgressTasks = tasks.filter(task => task.status === 'IN-PROGRESS');
   const completedTasks = tasks.filter(task => task.status === 'COMPLETED');
@@ -100,13 +107,38 @@ const Page = () => {
 
   return (
     <Stack gap="34px">
-        <Stack direction="row" spacing={2} sx={{ justifyContent: 'space-between' }}>
-            <Stack direction="column" spacing={2} alignItems="center">
-                <Stack direction="row" gap="10px" alignItems="center">
-                  <Typography variant='caption' sx={{fontWeight: 600, color: theme.palette.black[100_60]}}>
+        <Stack spacing={2} sx={{ justifyContent: 'space-between', flexDirection: {xs: 'column', sm: 'row'} }}>
+            <Stack sx={{display: {xs: 'flex', sm: 'none', alignItems: 'flex-end'}}}>
+              <Button variant="contained" 
+                  sx={{ 
+                        height: '48px', 
+                        width: '86px',
+                        borderRadius: '41px', 
+                        bgcolor: theme.palette.secondary.main,
+                        transition: 'transform 300ms ease-in-out',
+                        transform: 'translateX(0)',
+                        fontSize: '10px'
+                      }} 
+                      onClick={handleOpen}
+                >
+                  Add Task
+                </Button>
+                <AddUpdateTaskModal
+                      open={open} 
+                      loading={isPending}
+                      handleClose={handleClose} 
+                      handleAction={handleCreate}
+                      data={null}
+                      mode="add"
+                  />
+            </Stack>
+            <Stack direction="row" alignItems="center">
+                <Stack  gap="10px" sx={{flexDirection: {xs: "column" , sm: "row"}, alignItems:{xs: "flex-start" , sm: "center"}, }}>
+                  <Typography variant='caption' sx={{flex: 1,fontWeight: 600, color: theme.palette.black[100_60]}}>
                       Filter by:
                   </Typography>
-                  <Select
+                  <Stack flexDirection="row" gap="10px" >
+                    <Select
                     id="category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
@@ -157,39 +189,53 @@ const Page = () => {
                     <MenuItem value="work">Work</MenuItem>
                     <MenuItem value="personal">Personal</MenuItem>
                   </Select>
-
                   <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
+                  </Stack>
                 </Stack>
             </Stack>
             <Stack direction="row" spacing={2} alignItems="center">
-                <TextField
+              <TextField
                   id="search"
                   value={search}
-                  variant='outlined'
-                  placeholder='Search'
+                  variant="outlined"
+                  placeholder="Search"
                   onChange={(e) => setSearch(e.target.value)}
-                  sx={{height: '36px'}}
-                  slotProps={{
-                    input: {
-                    startAdornment: <InputAdornment position="start" sx={{margin: 0}}>
-                        <Image src={searchIcon} alt='search'/>
-                    </InputAdornment>,
-                    },
-                }}
+                  sx={{ height: '36px', width:{xs:'100%', sm: '204px' }}}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start" sx={{ margin: 0 }}>
+                        <Image src={searchIcon} alt="search" />
+                      </InputAdornment>
+                    ),
+                    endAdornment: search && (
+                      <InputAdornment position="end">
+                        <IconButton
+                          sx={{p:0, px: '4px'}}
+                          onClick={() => setSearch('')}
+                          edge="end"
+                        >
+                          <CancelOutlined sx={{height: "20px", width: '20px'}} />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
                 <Button variant="contained" 
-                  sx={{ 
-                    height: '48px', 
-                    width: '152px',
-                    borderRadius: '41px', 
-                    bgcolor: theme.palette.secondary.main,
-                    transition: 'transform 300ms ease-in-out',
-                    transform: 'translateX(0)'
-                  }} 
-                  onClick={handleOpen}
-                  >Add Task</Button>
+                    sx={{ 
+                      display: {xs: 'none', sm: 'block'},
+                      height: '48px', 
+                      width: '152px',
+                      borderRadius: '41px', 
+                      bgcolor: theme.palette.secondary.main,
+                      transition: 'transform 300ms ease-in-out',
+                      transform: 'translateX(0)'
+                    }} 
+                    onClick={handleOpen}
+                    >Add Task
+                  </Button>
                   <AddUpdateTaskModal
                     open={open} 
+                    loading={isPending}
                     handleClose={handleClose} 
                     handleAction={handleCreate}
                     data={null}

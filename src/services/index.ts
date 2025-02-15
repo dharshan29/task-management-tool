@@ -41,3 +41,8 @@ export const updateTaskStatus = async (payload: any) => {
   return data;
 };
 
+export const getTaskActivities = async (taskId: string) => {
+  const { data } = await http.get(`/api/tasks/${taskId}/activities`);
+  return data;
+};
+

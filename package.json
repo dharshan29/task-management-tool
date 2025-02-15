@@ -34,6 +34,8 @@
     "react": "^19.0.0",
     "react-datepicker": "^8.0.0",
     "react-dom": "^19.0.0",
+    "react-dropzone": "^14.3.5",
+    "react-file-base64": "^1.0.3",
     "react-rte": "^0.16.5",
     "zustand": "^5.0.3"
   },
@@ -43,6 +45,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-dropzone": "^5.1.0",
     "@types/react-rte": "^0.16.8",
     "typescript": "^5"
   }

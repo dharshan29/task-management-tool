@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import Navbar from "@/components/navbar";
 import { useQuery } from "@tanstack/react-query";
 
@@ -10,11 +10,14 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
+  const theme = useTheme();
+  const isLaptop = useMediaQuery(theme.breakpoints.up('sm'))
 
   return (
     <Box sx={{ minHeight: "100vh", background: (theme) => theme.palette.background.default }}>
       <Navbar />
-      <Box component="main" sx={{ px: "32px", mt: '14px' }}>{children}</Box>
+      {isLaptop && <Box component="main" sx={{ px: "32px", mt: '14px' }}>{children}</Box>}
+      {!isLaptop && <Box component="main" sx={{ pl: "16px", pr: '20px', mt: '14px' }}>{children}</Box>}
     </Box>
   );
 };

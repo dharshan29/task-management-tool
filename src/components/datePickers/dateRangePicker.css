@@ -1,6 +1,7 @@
 /* Custom DatePicker Styles */
 .custom-datepicker {
     max-width: 90px;
+    height: 32px;
     width: 100%;
     padding: 10px;
     border: 1px solid #00000033;
@@ -10,7 +11,7 @@
   }
 
 .single-datepicker {
-    width: 195px;
+    width: 100%;
     height: 32px;
     border-width: 1px;
     background: #F1F1F15C;
@@ -35,6 +36,10 @@
     justify-content: center;
     gap: 10px;
     margin-bottom: 10px;
+  }
+
+  .react-datepicker-wrapper{
+    width: auto;
   }
   
   /* Custom dropdown styles */
@@ -207,17 +212,15 @@
   }
 
 
-  /* .react-datepicker__day-name {
-    font-family: Mulish;
-    font-weight: 400;
-    font-size: 10.73px;
-    line-height: 13.47px;
-    letter-spacing: 0%;
-  } */
-  
+  .datepicker-container {
+    position: relative;
+    align-items: center;
+    width: 100%;
+  }
 
-/* .react-datepicker__day--today:hover {
-    background: #F8B1FF
-; 
-    color: white !important;
-} */
+  .datepicker-icon {
+    position: absolute;
+    right: 10px;
+    pointer-events: none;
+    color: #888;
+  }
