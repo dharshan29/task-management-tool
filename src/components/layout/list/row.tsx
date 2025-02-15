@@ -17,6 +17,7 @@ import AddUpdateTaskModal from '@/components/addTaskModal';
 import { useLayoutStore } from '@/lib/zustand/layout';
 import { useDraggable } from '@dnd-kit/core';
 import { useActivityStore } from '@/lib/zustand/activity';
+import toast from 'react-hot-toast';
 
 interface RowProps {
   data: TaskType
@@ -52,7 +53,11 @@ const RowComponent: React.FC<RowProps> = ({ data }) => {
       mutationFn: removeTasks,
       onSuccess: (data) => {
         deleteTasks(data.deletedIds);
+        toast.success(data.message)
       },
+      onError: (error: any) => {
+        toast.error(error.response.data.error || error.response.data.message || 'Something went wrong');
+      }
     });
 
     const { updateTask } = useTaskStore()
@@ -61,7 +66,11 @@ const RowComponent: React.FC<RowProps> = ({ data }) => {
       onSuccess: (data) => {
         updateTask(data.task);
         setModalOpen(false);
+        toast.success(data.message)
       },
+      onError: (error: any) => {
+        toast.error(error.response.data.error || error.response.data.message || 'Something went wrong');
+      }
     });
 
     const { mutate: mutateUpdateTaskStatus } = useMutation({
@@ -69,7 +78,11 @@ const RowComponent: React.FC<RowProps> = ({ data }) => {
       onSuccess: (data) => {
         taskStatusUpdate(data.ids, data.status);
         setModalOpen(false);
+        toast.success(data.message)
       },
+      onError: (error: any) => {
+        toast.error(error.response.data.error || error.response.data.message || 'Something went wrong');
+      }
     });
   
     const handleUpdate = (payload: TaskType) => {

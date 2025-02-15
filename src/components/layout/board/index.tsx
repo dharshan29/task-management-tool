@@ -9,6 +9,7 @@ import { Stack } from '@mui/material';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import Card from './card';
+import toast from 'react-hot-toast';
 
 const BoardLayout = ({ todoTasks, inProgressTasks, completedTasks }: { todoTasks: TaskType[], inProgressTasks: TaskType[], completedTasks: TaskType[] }) => {
   const [activeCard, setActiveCard] = useState<TaskType | null>(null);
@@ -20,13 +21,17 @@ const BoardLayout = ({ todoTasks, inProgressTasks, completedTasks }: { todoTasks
     mutationFn: updateTaskStatus,
     onSuccess: (data) => {
       taskStatusUpdate(data.ids, data.status);
+      toast.success(data.message)
     },
+    onError: (error: any) => {
+      toast.error(error.response.data.error || error.response.data.message || 'Something went wrong');
+    }
   });
 
-  const handleDragStart = (event: any) => {
-    setActiveCard(event.active.data.current?.item || null);
-    setDisabled(true)
-  };
+  // const handleDragStart = (event: any) => {
+  //   setActiveCard(event.active.data.current?.item || null);
+  //   setDisabled(true)
+  // };
   
   const handleDragEnd = (event: any) => {
     setActiveCard(null);

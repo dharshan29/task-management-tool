@@ -8,8 +8,10 @@ import boardIcon from '@/assets/icons/board.svg';
 import logoutIcon from '@/assets/icons/logout.svg';
 import Image from 'next/image';
 import Task from '@/assets/icons/task.svg'
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
+  const router = useRouter();
   const { user, logout } = useAuthStore();
   const { layout ,setLayout } = useLayoutStore();
   const theme = useTheme();
@@ -41,7 +43,7 @@ const Navbar = () => {
               {user?.userName}
             </Typography>
           </Stack>
-          <Button variant='outlined' onClick={logout} startIcon={<Image src={logoutIcon} alt="logout" width={15} height={15} />}
+          <Button variant='outlined' onClick={() => logout(router)} startIcon={<Image src={logoutIcon} alt="logout" width={15} height={15} />}
             sx={{
               display: {xs: 'none', sm: 'flex'},
               bgcolor: theme.palette.background.soft, 

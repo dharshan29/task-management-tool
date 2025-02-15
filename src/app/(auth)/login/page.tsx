@@ -13,6 +13,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/zustand/user'
 import useStyles from "./index.style";
+import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 const Login = () => {
   const theme = useTheme();
@@ -35,7 +37,7 @@ const Login = () => {
       localStorage.setItem('token', response.token);
 
       router.push('/');
-
+      toast.success('Logged In');
     },
     onError: (error) => {
       console.error("Google login failed:", error);
@@ -53,12 +55,20 @@ const Login = () => {
       const { displayName, email, photoURL, uid } = result.user;
       const accessToken = await result.user.getIdToken();
       googleLogin(accessToken)
+
       // console.log({result})
       // console.log(accessToken) 
     } catch (error) {
       console.error("Error signing in with Google:", error);
     }
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if(token){
+      router.push('/');
+    }
+  }, [])
 
   const isLaptop = useMediaQuery(theme.breakpoints.up('sm'))
 

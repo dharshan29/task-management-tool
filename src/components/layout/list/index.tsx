@@ -9,6 +9,8 @@ import { useMutation } from '@tanstack/react-query';
 import { updateTaskStatus } from '@/services';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
+import toast from 'react-hot-toast';
+import Image from 'next/image';
 
 
 const ListLayout = ({ todoTasks, inProgressTasks, completedTasks}: {todoTasks: TaskType[], inProgressTasks: TaskType[], completedTasks: TaskType[]}) => {
@@ -23,7 +25,11 @@ const ListLayout = ({ todoTasks, inProgressTasks, completedTasks}: {todoTasks: T
       mutationFn: updateTaskStatus,
       onSuccess: (data) => {
         taskStatusUpdate(data.ids, data.status);
+        toast.success(data.message)
       },
+      onError: (error: any) => {
+        toast.error(error.response.data.error || error.response.data.message || 'Something went wrong');
+      }
     });
 
     const handleDragStart = (event: any) => {
@@ -60,28 +66,54 @@ const ListLayout = ({ todoTasks, inProgressTasks, completedTasks}: {todoTasks: T
 
         <Stack gap="32px">
           <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} >
-            <Table
-                data={todoTasks}
-                header="TO-DO"
-                isLoading={isLoading}
-                row={RowComponent}
-                addTaskComponent={AddTaskComponent}
-            />
+            <Box
+              style={{
+                borderRadius: "12px",
+                border: "1px solid #ddd",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <Table
+                  data={todoTasks}
+                  header="TO-DO"
+                  isLoading={isLoading}
+                  row={RowComponent}
+                  addTaskComponent={AddTaskComponent}
+              />
+            </Box>
+            <Box
+              style={{
+                borderRadius: "12px",
+                border: "1px solid #ddd",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+              }}
+            >
             <Table
                 data={inProgressTasks}
                 header="IN-PROGRESS"
                 isLoading={isLoading}
                 row={RowComponent}
             />
+            </Box>
+            <Box
+              style={{
+                borderRadius: "12px",
+                border: "1px solid #ddd",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+              }}
+            >
             <Table
                 data={completedTasks}
                 header="COMPLETED"
                 isLoading={isLoading}
                 row={RowComponent}
             />
+            </Box>
               {createPortal(
                   <DragOverlay style={{backgroundColor: '#F1F1F1', color: 'black'}}>
-                      {activeCard ? <RowComponent data={activeCard} /> : null}
+                      {activeCard ? 
+                      <RowComponent data={activeCard} /> 
+                      : null}
                   </DragOverlay>,
                   document.body
               )}

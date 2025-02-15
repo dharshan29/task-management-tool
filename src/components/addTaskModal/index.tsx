@@ -102,7 +102,7 @@ export default function AddUpdateTaskModal({open, handleClose, loading, handleAc
       >
         <Stack sx={{ 
             ...style, 
-            height: {xs: '95%', sm: 'none'},
+            height: {xs: '95%', sm: '80%'},
             width: { 
             xs: '100%',
             sm: "90%",  
@@ -116,7 +116,7 @@ export default function AddUpdateTaskModal({open, handleClose, loading, handleAc
                 </IconButton>
             </Stack>
             <Divider sx={styles.divider}/>
-            <Stack flexDirection="row" sx={{flex: 1, maxHeight: {xs: "83%", sm: mode === "add" ? "545px": "424px"} }}>
+            <Stack flexDirection="row" sx={{flex: 1, maxHeight: {xs: "83%", sm: mode === "add" ? "none": "none"} }}>
                 <Stack sx={{flex: 1, justifyContent: "flex-start", overflowY: "scroll"}}>
                     <Stack sx={{pl: "20px", pr: "24px"}}>
                         {mode === "update" &&<Stack sx={{display: {xs: 'flex', sm: 'none', flexDirection: 'row',gap: '8px', marginTop: '27px', marginBottom: '23px'}}}>

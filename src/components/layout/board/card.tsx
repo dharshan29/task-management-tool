@@ -11,6 +11,7 @@ import { useTaskStore } from '@/lib/zustand/tasks';
 import { removeTasks, update_Task } from '@/services';
 import { useLayoutStore } from '@/lib/zustand/layout';
 import AddUpdateTaskModal from '@/components/addTaskModal';
+import toast from 'react-hot-toast';
 
 const Card = ({item}: {item: TaskType}) => {
     const theme = useTheme();
@@ -39,7 +40,11 @@ const Card = ({item}: {item: TaskType}) => {
       onSuccess: (data) => {
         deleteTasks(data.deletedIds);
         setDisabled(false)
+        toast.success(data.message)
       },
+      onError: (error: any) => {
+        toast.error(error.response.data.error || error.response.data.message || 'Something went wrong');
+      }
     });
 
     const { updateTask } = useTaskStore()
@@ -49,7 +54,11 @@ const Card = ({item}: {item: TaskType}) => {
         updateTask(data.task);
         setModalOpen(false);
         setDisabled(false)
-      },
+        toast.success(data.message)
+      }, 
+      onError: (error: any) => {
+        toast.error(error.response.data.error || error.response.data.message || 'Something went wrong');
+      }
     });
   
     const handleUpdate = (payload: TaskType) => {

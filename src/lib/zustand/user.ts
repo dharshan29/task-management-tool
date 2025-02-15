@@ -10,7 +10,7 @@ interface AuthState {
   } | null;
   isAuthenticated: boolean;
   setUser: (user: AuthState["user"]) => void;
-  logout: () => void;
+  logout: (router: any) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -19,9 +19,10 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       isAuthenticated: false,
       setUser: (user) => set({ user, isAuthenticated: true }),
-      logout: () => {
+      logout: (router) => {
         set({ user: null, isAuthenticated: false });
-        localStorage.removeItem('zustand/user'); // Remove user from local storage on logout
+        localStorage.removeItem('token'); 
+        router.push("/login"); 
       },
     }),
     {

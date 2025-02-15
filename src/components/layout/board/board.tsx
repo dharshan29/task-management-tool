@@ -20,10 +20,17 @@ const BoardContainer = ({ items, title, status }: { items: TaskType[], title: st
         <Stack sx={{ padding: '4px 10px', bgcolor: headColor[title], width: "fit-content", borderRadius: '4px' }}>
           <Typography variant='body2' sx={{ fontWeight: 500 }}>{title}</Typography>
         </Stack>
-        <Stack gap="8px">
+        <Stack gap="8px" sx={{height: '100%'}}>
             {items.map((item) => (
               <Card key={item.taskName} item={item} />
             ))}
+            {items.length === 0 && 
+            <Stack justifyContent="center" alignItems="center" sx={{height: '100%'}}>
+              <Typography variant="subtitle1" sx={{fontWeight: 500, color: theme.palette.black[400]}}>
+                  No Task in {title}
+              </Typography>
+            </Stack>
+            }
         </Stack>
       </Stack>
     );

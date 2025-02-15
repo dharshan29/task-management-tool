@@ -16,8 +16,8 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <Box sx={{ minHeight: "100vh", background: (theme) => theme.palette.background.default }}>
       <Navbar />
-      {isLaptop && <Box component="main" sx={{ px: "32px", mt: '14px' }}>{children}</Box>}
-      {!isLaptop && <Box component="main" sx={{ pl: "16px", pr: '20px', mt: '14px' }}>{children}</Box>}
+      {isLaptop && <Box component="main" sx={{ px: "32px", my: '14px' }}>{children}</Box>}
+      {!isLaptop && <Box component="main" sx={{ pl: "16px", pr: '20px', my: '14px' }}>{children}</Box>}
     </Box>
   );
 };

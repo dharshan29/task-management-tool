@@ -7,6 +7,7 @@ import TasksIcon from '@/assets/icons/tasks.svg'
 import { removeTasks, updateTaskStatus } from '@/services';
 import { useMutation } from '@tanstack/react-query';
 import { useTaskStore } from '@/lib/zustand/tasks';
+import toast from 'react-hot-toast';
 
 
 const buttonStyle = {
@@ -31,6 +32,7 @@ const FloatingAction = () => {
       onSuccess: (data) => {
         deleteTasks(data.deletedIds);
         clearSelectedIds();
+        toast.success(data.message)
       },
     });
 
@@ -39,7 +41,11 @@ const FloatingAction = () => {
       onSuccess: (data) => {
         taskStatusUpdate(data.ids, data.status);
         clearSelectedIds();
+        toast.success(data.message)
       },
+      onError: (error: any) => {
+        toast.error(error.response.data.error || error.response.data.message || 'Something went wrong');
+      }
     });
   
     const handleDelete = () => {

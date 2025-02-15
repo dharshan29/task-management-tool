@@ -15,6 +15,8 @@ import { useTaskStore } from '@/lib/zustand/tasks';
 import { TaskType } from '@/services/types';
 import FloatingAction from '@/components/floatingAction';
 import { ArrowDropDown, Cancel, CancelOutlined, Close, KeyboardArrowDownOutlined } from '@mui/icons-material';
+import toast from 'react-hot-toast';
+import NotFound from './not-found';
 
 interface CategoryOption {
   label: string;
@@ -73,7 +75,12 @@ const Page = () => {
     onSuccess: (data) => {
       addTask(data.task);
       handleClose();
+      toast.success(data.message);
     },
+    onError: (error: any) => {
+      console.log(error)
+      toast.error(error.response.data.error || error.response.data.message || 'Something went wrong');
+    }
   });
 
   const handleCreate = (payload: TaskType) => {
@@ -243,8 +250,13 @@ const Page = () => {
                   />
             </Stack>
         </Stack>
-        {layout === 'list'  && <ListLayout  todoTasks={todoTasks}  inProgressTasks={inProgressTasks} completedTasks={completedTasks} />}
-        {layout === 'board' && <BoardLayout todoTasks={todoTasks} inProgressTasks={inProgressTasks} completedTasks={completedTasks} />}
+        {tasks.length === 0 ? 
+        <NotFound /> :
+        <>
+          {layout === 'list'  && <ListLayout  todoTasks={todoTasks}  inProgressTasks={inProgressTasks} completedTasks={completedTasks} />}
+          {layout === 'board' && <BoardLayout todoTasks={todoTasks} inProgressTasks={inProgressTasks} completedTasks={completedTasks} />}
+        </>
+        }
         {selectedIds.length > 0 && <FloatingAction />}
     </Stack>
   );
