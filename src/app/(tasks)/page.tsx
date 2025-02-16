@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { Box, Stack, TextField, Button, Autocomplete, MenuItem, InputAdornment, Select, useTheme, Typography, IconButton, useMediaQuery } from '@mui/material';
 import Image from 'next/image';
 import searchIcon from '@/assets/icons/search.svg'
-import { useLayoutStore } from '@/lib/zustand/layout';
+import { useLayoutStore } from '../../lib/zustand/layout';
 import ListLayout from '../../components/layout/list';
 import BoardLayout from '../../components/layout/board';
 import DateRangePicker from '../../components/datePickers/dateRangePicker';

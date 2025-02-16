@@ -6,7 +6,7 @@ import dragIcon from '@/assets/icons/drag.svg';
 import unCheckedIcon from '@/assets/icons/unchecked.svg';
 import CheckedIcon from '@/assets/icons/checkmark-green.svg';
 import CheckmarkIcon from '@/assets/icons/checkmark.svg';
-import AddPopper from '@/components/customPopper/addPopper';
+import AddPopper from '../../customPopper/addPopper';
 import moreIcon from '@/assets/icons/more.svg'
 import { TaskType } from '../../../services/types';
 import ActionPopper from '../../customPopper/actionPopper';
