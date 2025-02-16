@@ -7,11 +7,11 @@ import GoogleIcon from '@/assets/icons/google.svg'
 import Image from 'next/image'
 import { urbanist } from "../../../theme/typography";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "@/lib/providers/Firebase";
+import { auth } from "lib/providers/Firebase";
 import { google } from "services";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/lib/zustand/user'
+import { useAuthStore } from 'lib/zustand/user'
 import useStyles from "./index.style";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
