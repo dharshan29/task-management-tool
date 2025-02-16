@@ -9,6 +9,7 @@ import AddPopper from '../../customPopper/addPopper'
 import { useTaskStore } from '../../../lib/zustand/tasks'
 import { useMutation } from '@tanstack/react-query'
 import { add_task } from '../../../services'
+import toast from 'react-hot-toast'
 
 
 // const statusOptions = ['TO-DO', 'IN-PROGRESS', 'COMPLETED'];
@@ -38,7 +39,11 @@ const AddTaskComponent = () => {
       onSuccess: (data) => {
         addTask(data.task);
         reset();
+        toast.success(data.message)
       },
+      onError: (error: any) => {
+        toast.error(error.response.data.error || error.response.data.message || 'Something went wrong');
+      }
     });
   
     const handleCreate = () => {
