@@ -2,11 +2,11 @@ import { Box, Divider, useTheme, Typography, Stack, useMediaQuery } from '@mui/m
 import Table from '../../table/table'
 import AddTaskComponent from './addTasks';
 import RowComponent from './row';
-import { TaskType } from '@/services/types';
+import { TaskType } from '../../../services/types';
 import { DndContext, DragOverlay } from '@dnd-kit/core';
-import { useTaskStore } from '@/lib/zustand/tasks';
+import { useTaskStore } from '../../../lib/zustand/tasks';
 import { useMutation } from '@tanstack/react-query';
-import { updateTaskStatus } from '@/services';
+import { updateTaskStatus } from '../../../services';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import toast from 'react-hot-toast';
