@@ -8,13 +8,13 @@ const nextConfig: NextConfig = {
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@': path.resolve(__dirname, './'),
+      '@': path.resolve(__dirname, 'src'),
     };
 
     return config;
   },
   images: {
-    domains: ["lh3.googleusercontent.com"], // ✅ Allow Google-hosted images
+    domains: ["lh3.googleusercontent.com"], 
   },
 };
 
