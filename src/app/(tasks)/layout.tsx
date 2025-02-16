@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
-import Navbar from "@/components/navbar";
+import Navbar from "../../components/navbar";
 import { useQuery } from "@tanstack/react-query";
 
 interface LayoutProps {

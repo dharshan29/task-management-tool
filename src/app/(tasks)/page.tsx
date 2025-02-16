@@ -4,16 +4,15 @@ import { Box, Stack, TextField, Button, Autocomplete, MenuItem, InputAdornment, 
 import Image from 'next/image';
 import searchIcon from '@/assets/icons/search.svg'
 import { useLayoutStore } from '@/lib/zustand/layout';
-import ListLayout from '@/components/layout/list';
-import BoardLayout from '@/components/layout/board';
-import DateRangePicker from '@/components/datePickers/dateRangePicker';
-import TextEditor from '@/components/textEditor';
-import AddUpdateTaskModal from '@/components/addTaskModal';
+import ListLayout from '../../components/layout/list';
+import BoardLayout from '../../components/layout/board';
+import DateRangePicker from '../../components/datePickers/dateRangePicker';
+import AddUpdateTaskModal from '../../components/addTaskModal';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import {  add_task, getTasks } from '@/services';
-import { useTaskStore } from '@/lib/zustand/tasks';
-import { TaskType } from '@/services/types';
-import FloatingAction from '@/components/floatingAction';
+import {  add_task, getTasks } from '../../services';
+import { useTaskStore } from '../../lib/zustand/tasks';
+import { TaskType } from '../../services/types';
+import FloatingAction from '../../components/floatingAction';
 import { ArrowDropDown, Cancel, CancelOutlined, Close, KeyboardArrowDownOutlined } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import NotFound from './not-found';
