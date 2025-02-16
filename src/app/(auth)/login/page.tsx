@@ -5,7 +5,7 @@ import Task from '@/assets/icons/task.svg'
 import TaskImage from '@/assets/images/Task_list_view.svg'
 import GoogleIcon from '@/assets/icons/google.svg'
 import Image from 'next/image'
-import { urbanist } from "@/theme/typography";
+import { urbanist } from "../../../theme/typography";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "@/lib/providers/Firebase";
 import { google } from "@/services";
