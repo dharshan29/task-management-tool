@@ -6,11 +6,12 @@ const useStyles = (theme: Theme) => ({
             md: '366px', 
             xs: '296px',
             margin: 'auto', 
-            marginRight: '83px', 
-            marginLeft: '66px', 
             gap: '31.5px',
         },
-        alignItems: {xs: 'center', sm: 'flex-start'}
+        marginRight: {sx: 'auto', sm: '83px'}, 
+        marginLeft: {sx: 'auto', sm: '66px'}, 
+        alignItems: {xs: 'center', sm: 'flex-start'},
+        zIndex: 2,
     },
     mobileContainer: {
 
