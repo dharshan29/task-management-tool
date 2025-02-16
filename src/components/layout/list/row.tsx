@@ -8,15 +8,15 @@ import CheckedIcon from '@/assets/icons/checkmark-green.svg';
 import CheckmarkIcon from '@/assets/icons/checkmark.svg';
 import AddPopper from '@/components/customPopper/addPopper';
 import moreIcon from '@/assets/icons/more.svg'
-import { TaskType } from '@/services/types';
-import ActionPopper from '@/components/customPopper/actionPopper';
-import { useTaskStore } from '@/lib/zustand/tasks';
+import { TaskType } from '../../../services/types';
+import ActionPopper from '../../customPopper/actionPopper';
+import { useTaskStore } from '../../../lib/zustand/tasks';
 import { useMutation } from '@tanstack/react-query';
-import { getTaskActivities, removeTasks, update_Task, updateTaskStatus } from '@/services';
-import AddUpdateTaskModal from '@/components/addTaskModal';
-import { useLayoutStore } from '@/lib/zustand/layout';
+import { getTaskActivities, removeTasks, update_Task, updateTaskStatus } from '../../../services';
+import AddUpdateTaskModal from '../../addTaskModal';
+import { useLayoutStore } from '../../../lib/zustand/layout';
 import { useDraggable } from '@dnd-kit/core';
-import { useActivityStore } from '@/lib/zustand/activity';
+import { useActivityStore } from '../../../lib/zustand/activity';
 import toast from 'react-hot-toast';
 
 interface RowProps {

@@ -1,9 +1,9 @@
 import { DndContext, useSensor, useSensors, PointerSensor, DragOverlay } from '@dnd-kit/core';
-import { useLayoutStore } from '@/lib/zustand/layout';
-import { TaskType } from '@/services/types';
-import { useTaskStore } from '@/lib/zustand/tasks';
+import { useLayoutStore } from '../../../lib/zustand/layout';
+import { TaskType } from '../../../services/types';
+import { useTaskStore } from '../../../lib/zustand/tasks';
 import BoardContainer from './board';
-import { update_Task, updateTaskStatus } from '@/services';
+import { update_Task, updateTaskStatus } from '../../../services';
 import { useMutation } from '@tanstack/react-query';
 import { Stack } from '@mui/material';
 import { useState } from 'react';

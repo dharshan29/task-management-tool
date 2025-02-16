@@ -3,7 +3,6 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { addYears, subYears } from 'date-fns';
 import './dateRangePicker.css';
-import { ArrowDropDownOutlined } from '@mui/icons-material';
 
 interface DateRangePickerProps {
   dateRange: [Date | null, Date | null];

@@ -4,13 +4,13 @@ import moreIcon from '@/assets/icons/more.svg'
 import React, { useState } from 'react'
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
-import { TaskType } from '@/services/types';
-import ActionPopper from '@/components/customPopper/actionPopper';
+import { TaskType } from '../../../services/types';
+import ActionPopper from '../../customPopper/actionPopper';
 import { useMutation } from '@tanstack/react-query';
-import { useTaskStore } from '@/lib/zustand/tasks';
-import { removeTasks, update_Task } from '@/services';
-import { useLayoutStore } from '@/lib/zustand/layout';
-import AddUpdateTaskModal from '@/components/addTaskModal';
+import { useTaskStore } from '../../../lib/zustand/tasks';
+import { removeTasks, update_Task } from '../../../services';
+import { useLayoutStore } from '../../../lib/zustand/layout';
+import AddUpdateTaskModal from '../../addTaskModal';
 import toast from 'react-hot-toast';
 
 const Card = ({item}: {item: TaskType}) => {

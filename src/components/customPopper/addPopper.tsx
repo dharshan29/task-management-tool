@@ -1,5 +1,4 @@
 import { Popper, Paper, List, ListItem, ClickAwayListener, PopperPlacementType } from '@mui/material';
-import { useState } from 'react';
 
 interface CustomPopperProps {
   anchorEl: HTMLElement | null;

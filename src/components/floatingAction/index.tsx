@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Box, Button, IconButton, Menu, MenuItem, Stack, Typography } from '@mui/material';
-import { useLayoutStore } from '@/lib/zustand/layout';
+import { useLayoutStore } from '../../lib/zustand/layout';
 import { Close } from '@mui/icons-material';
 import Image from 'next/image';
 import TasksIcon from '@/assets/icons/tasks.svg'
-import { removeTasks, updateTaskStatus } from '@/services';
+import { removeTasks, updateTaskStatus } from '../../services';
 import { useMutation } from '@tanstack/react-query';
-import { useTaskStore } from '@/lib/zustand/tasks';
+import { useTaskStore } from '../../lib/zustand/tasks';
 import toast from 'react-hot-toast';
 
 

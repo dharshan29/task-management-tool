@@ -1,7 +1,7 @@
 import { Stack, Typography, useTheme } from '@mui/material'
 import React, { useMemo } from 'react'
 import Card from './card';
-import { TaskType } from '@/services/types';
+import { TaskType } from '../../../services/types';
 import { useDroppable } from '@dnd-kit/core';
 
 

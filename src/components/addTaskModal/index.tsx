@@ -3,18 +3,15 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { CircularProgress, Divider, FormControl, IconButton, InputBase, MenuItem, Select, Stack, TextField, useTheme } from '@mui/material';
+import { Divider, FormControl, IconButton, InputBase, MenuItem, Select, Stack, TextField, useTheme } from '@mui/material';
 import Image from 'next/image';
 import CloseIcon from '@/assets/icons/close.svg'
 import TextEditor from '../textEditor';
 import useStyles from './index.style';
 import SingleDatePicker from '../datePickers/singleDatePicker';
 import { Close, KeyboardArrowDownRounded, KeyboardArrowUpRounded } from '@mui/icons-material';
-import { TaskType } from '@/services/types';
+import { TaskType } from '../../services/types';
 import FileUpload from '../uploadFIles';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { getTaskActivities } from '@/services';
-import { useActivityStore } from '@/lib/zustand/activity';
 import Activity from './Activity';
 
 const style = {
@@ -116,7 +113,7 @@ export default function AddUpdateTaskModal({open, handleClose, loading, handleAc
                 </IconButton>
             </Stack>
             <Divider sx={styles.divider}/>
-            <Stack flexDirection="row" sx={{flex: 1, maxHeight: {xs: "83%", sm: mode === "add" ? "none": "none"} }}>
+            <Stack flexDirection="row" sx={{flex: 1, maxHeight: {xs: "83%"} }}>
                 <Stack sx={{flex: 1, justifyContent: "flex-start", overflowY: "scroll"}}>
                     <Stack sx={{pl: "20px", pr: "24px"}}>
                         {mode === "update" &&<Stack sx={{display: {xs: 'flex', sm: 'none', flexDirection: 'row',gap: '8px', marginTop: '27px', marginBottom: '23px'}}}>
@@ -260,7 +257,11 @@ export default function AddUpdateTaskModal({open, handleClose, loading, handleAc
                             ))}
                         </Stack>
                         </>}
-                        {toggleContent === "activity" && <Activity />}
+                        {toggleContent === "activity" && 
+                        <Stack sx={{height: '100%'}}>
+                            <Activity />
+                        </Stack>
+                        }
                     </Stack>
                 </Stack>
                 {mode === "update" && 
@@ -269,7 +270,7 @@ export default function AddUpdateTaskModal({open, handleClose, loading, handleAc
                         <Stack sx={{height: '45px', px: '16px', borderLeft: '1px solid #00000021', borderBottom: '1px solid #00000021', justifyContent: 'center'}}>
                             <Typography variant='h6' sx={{fontWeight: 600}}>Activity</Typography>
                         </Stack>
-                        <Stack sx={{flex: 1, bgcolor: 'background.paper'}}>
+                        <Stack sx={{flex: 1, bgcolor: 'background.paper', height: '100%'}}>
                            <Activity />
                         </Stack>
                     </Stack>

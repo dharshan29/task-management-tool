@@ -7,6 +7,7 @@ export default function AuthProvider({ children, isAuth }: { children: React.Rea
     const router = useRouter();
     const { logout } = useAuthStore();
     useEffect(() => {
+      console.log({isAuth})
       if (!isAuth) {
         localStorage.removeItem('token');
         logout(router);

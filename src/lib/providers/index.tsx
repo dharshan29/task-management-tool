@@ -1,4 +1,4 @@
-import ThemeRegistry from "@/theme";
+import ThemeRegistry from "../../theme";
 import AuthProvider from "./auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CssBaseline } from "@mui/material";

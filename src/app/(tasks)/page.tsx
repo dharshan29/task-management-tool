@@ -88,6 +88,7 @@ const Page = () => {
 
   
   useEffect(() => {
+    console.log('token',localStorage.getItem('token'))
     fetchTasks({
       search,
       category,

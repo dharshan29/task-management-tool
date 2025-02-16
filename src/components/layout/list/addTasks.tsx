@@ -4,11 +4,11 @@ import React, { useState } from 'react'
 import plusIcon from '@/assets/icons/plus.svg'
 import addIcon from '@/assets/icons/add.svg'
 import enterIcon from '@/assets/icons/enter.svg'
-import SingleDatePicker from '@/components/datePickers/singleDatePicker'
-import AddPopper from '@/components/customPopper/addPopper'
-import { useTaskStore } from '@/lib/zustand/tasks'
+import SingleDatePicker from '../../datePickers/singleDatePicker'
+import AddPopper from '../../customPopper/addPopper'
+import { useTaskStore } from '../../../lib/zustand/tasks'
 import { useMutation } from '@tanstack/react-query'
-import { add_task } from '@/services'
+import { add_task } from '../../../services'
 
 
 // const statusOptions = ['TO-DO', 'IN-PROGRESS', 'COMPLETED'];

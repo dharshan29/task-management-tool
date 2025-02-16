@@ -1,4 +1,4 @@
-import { useActivityStore } from '@/lib/zustand/activity'
+import { useActivityStore } from '../../lib/zustand/activity'
 import { Stack, Typography, useTheme } from '@mui/material';
 import React from 'react'
 
@@ -21,7 +21,7 @@ const Activity = () => {
 
     const theme = useTheme();
   return (
-    <Stack sx={{padding: '8px 20px 8px 16px'}} gap="14px">
+    <Stack sx={{padding: '8px 20px 8px 16px', overflow: 'scroll'}} gap="14px">
         {activities?.map((item, index) => (
             <Stack key={index} justifyContent="space-between" flexDirection="row" alignItems="center" >
                 <Typography sx={{fontSize: '10px', fontWeight: 400, color: theme.palette.black[200]}}>{item?.activity}</Typography>
